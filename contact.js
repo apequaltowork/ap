@@ -38,6 +38,33 @@
     addEventListener("resize", wmeasure);
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(wmeasure);
 
+    // The spider must never chase a pointer that is aiming at a form field.
+    // Rects are cached rather than using elementFromPoint, which is a layout
+    // read and pointermove fires far too often for that.
+    var noHunt = [];
+    var mapZones = function () {
+      // Only what someone actually aims at. The header is plain text — a
+      // spider crossing it costs nothing, and including it swallowed most of
+      // the open web, leaving almost nowhere for the chase to happen.
+      noHunt = [".slate-form", ".cform__aside"]
+        .map(function (sel) { return document.querySelector(sel); })
+        .filter(Boolean)
+        .map(function (el) {
+          var r = el.getBoundingClientRect();
+          return { l: r.left - 14, t: r.top - 14, r: r.right + 14, b: r.bottom + 14 };
+        });
+    };
+    var overContent = function (cx, cy) {
+      for (var i = 0; i < noHunt.length; i++) {
+        var z = noHunt[i];
+        if (cx >= z.l && cx <= z.r && cy >= z.t && cy <= z.b) return true;
+      }
+      return false;
+    };
+    mapZones();
+    addEventListener("resize", mapZones);
+    addEventListener("scroll", mapZones, { passive: true });
+
     var wptr = { cx: -9999, cy: -9999, on: false };
     addEventListener("pointermove", function (e) {
       if (e.pointerType === "touch") return;
@@ -47,9 +74,13 @@
     addEventListener("blur", function () { wptr.on = false; web.leave(); });
 
     RIG.frame(function () {
-      if (wptr.on) web.at(wptr.cx - wbox.left, wptr.cy - wbox.top);
-      else web.leave();
-      web.frame();
+      if (wptr.on) {
+        // the web still ripples everywhere; only the hunt is gated
+        web.at(wptr.cx - wbox.left, wptr.cy - wbox.top, !overContent(wptr.cx, wptr.cy));
+      } else {
+        web.leave();
+      }
+      web.frame(performance.now());
     });
   }
 
