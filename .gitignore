@@ -1,0 +1,30 @@
+# Built output — regenerate with `node build-single.js`. GitHub Pages serves
+# index.html and the modules directly, so the single-file bundles are only
+# needed for double-clicking offline or publishing an Artifact.
+dist/
+
+# Version snapshots. These predate the repo and were how versions were kept
+# before there was git history; ~19 MB of duplicated binaries. They still
+# exist locally — git history covers this job from here on.
+v1/
+v2/
+v3/
+v4/
+v5/
+
+# Raw screenshots before tools/make-shots.py normalises them
+assets/work/_raw/
+
+# Offline preview renders from tools/make-hero.py
+tools/_*.png
+
+# Python
+__pycache__/
+*.pyc
+
+# Stray directory created by a shell path-expansion quirk
+D:django.virtualenvs/
+
+# OS
+.DS_Store
+Thumbs.db
