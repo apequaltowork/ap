@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contact — Ashish Pitroda</title>
+<meta name="description" content="Start a project with Ashish Pitroda — senior full-stack developer specialising in Wagtail CMS, Django, Vue and AWS.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@400;600;800&family=IBM+Plex+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,200;0,6..72,300;0,6..72,400;1,6..72,300&display=swap">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- No leader on inner pages: the countdown is the entrance to the site,
+     and replaying it on every navigation would be 3s of tax per click. -->
+
+<div class="grain" aria-hidden="true"></div>
+<div class="vignette" aria-hidden="true"></div>
+
+<div class="edge" aria-hidden="true">
+  <div class="edge__sprockets" data-sprockets></div>
+  <span class="edge__mark">ASHISH PITRODA · FULL-STACK DEVELOPER · 10+ YEARS</span>
+</div>
+
+<nav class="reels" aria-label="Sections">
+  <ol class="reels__list">
+    <li><a class="reel" href="index.html#r1"><span class="reel__n">01</span><span class="reel__name">Intro</span><i class="reel__tick"></i></a></li>
+    <li><a class="reel" href="index.html#r3"><span class="reel__n">03</span><span class="reel__name">Services</span><i class="reel__tick"></i></a></li>
+    <li><a class="reel" href="index.html#r4"><span class="reel__n">04</span><span class="reel__name">Work</span><i class="reel__tick"></i></a></li>
+    <li><a class="reel" href="index.html#r5"><span class="reel__n">05</span><span class="reel__name">Process</span><i class="reel__tick"></i></a></li>
+    <li><a class="reel" href="#c1"><span class="reel__n">08</span><span class="reel__name">Contact</span><i class="reel__tick"></i></a></li>
+  </ol>
+  <p class="reels__tc"><span data-timecode>00:00:00:00</span></p>
+</nav>
+
+<div class="playhead" aria-hidden="true"><span class="playhead__bar" data-playhead></span></div>
+
+<main class="stage">
+  <section class="act act--contact" id="c1" data-reel="08">
+    <div class="cform">
+
+      <header class="cform__head">
+        <a class="cform__back" href="index.html">
+          <svg viewBox="0 0 20 12" aria-hidden="true"><path d="M19 6H1M6 1 1 6l5 5"/></svg>
+          <span>Back to the reel</span>
+        </a>
+        <p class="eyebrow" data-rise>Open to work <i>·</i> Project or ongoing</p>
+        <h1 class="cform__title" data-chars>Brief</h1>
+        <p class="lede" data-rise style="--d:.5s">
+          Fill the slate. The more of it you complete, the more useful my first
+          reply will be — and I will tell you honestly if I am not the right fit.
+        </p>
+      </header>
+
+      <div class="cform__body">
+
+        <!-- The slate, made editable. Same grid, labels and hairlines as the
+             read-only one on the home page; here you fill it in. -->
+        <form class="slate-form" data-cform novalidate>
+          <div class="slate-form__grid">
+            <label class="field">
+              <span class="field__k">Name</span>
+              <input class="field__v" name="name" type="text" required autocomplete="name" placeholder="Your name">
+            </label>
+            <label class="field">
+              <span class="field__k">Email</span>
+              <input class="field__v" name="email" type="email" required autocomplete="email" placeholder="you@company.com">
+            </label>
+            <label class="field">
+              <span class="field__k">Company</span>
+              <input class="field__v" name="company" type="text" autocomplete="organization" placeholder="Optional">
+            </label>
+            <label class="field">
+              <span class="field__k">Project</span>
+              <select class="field__v" name="project">
+                <option>Wagtail CMS build or upgrade</option>
+                <option>Django / Python application</option>
+                <option>Frontend — Vue or Next.js</option>
+                <option>API or payment integration</option>
+                <option>AWS, servers or performance</option>
+                <option>Takeover of an existing project</option>
+                <option>Something else</option>
+              </select>
+            </label>
+            <label class="field">
+              <span class="field__k">Budget</span>
+              <select class="field__v" name="budget">
+                <option>Not sure yet</option>
+                <option>Under $2,000</option>
+                <option>$2,000 – $5,000</option>
+                <option>$5,000 – $15,000</option>
+                <option>$15,000+</option>
+                <option>Ongoing retainer</option>
+              </select>
+            </label>
+            <label class="field">
+              <span class="field__k">Timeline</span>
+              <select class="field__v" name="timeline">
+                <option>As soon as possible</option>
+                <option>2 – 4 weeks</option>
+                <option>1 – 3 months</option>
+                <option>Flexible</option>
+              </select>
+            </label>
+          </div>
+
+          <label class="field field--wide">
+            <span class="field__k">The brief</span>
+            <textarea class="field__v" name="brief" rows="6" required
+              placeholder="What you have now, what is wrong or missing, and what it should do instead."></textarea>
+          </label>
+
+          <p class="cform__err" data-cform-err role="alert" hidden></p>
+
+          <div class="cform__actions">
+            <button class="roll" type="submit">
+              <span class="roll__dot" aria-hidden="true"></span>
+              <span>Roll</span>
+            </button>
+            <p class="cform__note">Opens your mail app with the slate filled in — nothing is sent from this page.</p>
+          </div>
+
+          <!-- success: the slate stamps -->
+          <div class="stamp" data-cform-ok hidden>
+            <p class="stamp__k">Scene 01 · Take 01</p>
+            <p class="stamp__v">Slate handed over</p>
+            <p class="stamp__note">Your mail app should be open with the brief in it. If it did not open, write to <a href="mailto:apequaltowork@gmail.com">apequaltowork@gmail.com</a> directly.</p>
+          </div>
+        </form>
+
+        <aside class="cform__aside" data-rise>
+          <div class="cform__block">
+            <p class="cform__k">Direct</p>
+            <a class="cform__mail" href="mailto:apequaltowork@gmail.com">apequaltowork@gmail.com</a>
+          </div>
+          <div class="cform__block">
+            <p class="cform__k">Worth including</p>
+            <ul class="cform__list">
+              <li>Links to the site or app in question</li>
+              <li>What is broken, or what is missing</li>
+              <li>Whether anyone built it before you</li>
+              <li>Stack, if you know it</li>
+              <li>Any hard deadline</li>
+            </ul>
+          </div>
+          <div class="cform__block">
+            <p class="cform__k">Status</p>
+            <p class="cform__live"><i></i>Open to work</p>
+            <p class="cform__small">Project work or ongoing maintenance. I will say if I am not the right fit.</p>
+          </div>
+        </aside>
+
+      </div>
+
+      <footer class="foot">
+        <span>© 2026 Ashish Pitroda</span>
+        <span>Full-stack development</span>
+        <span>Open to work</span>
+      </footer>
+    </div>
+  </section>
+</main>
+
+<script src="scroll.js"></script>
+<script src="main.js"></script>
+<script src="contact.js"></script>
+</body>
+</html>

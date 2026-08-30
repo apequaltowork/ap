@@ -1107,6 +1107,22 @@ html.is-leading { overflow: hidden; }
 .mail svg { width: .9rem; height: .9rem; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; }
 .mail:hover { background: var(--amber-hot); transform: translateY(-2px); }
 
+.end__actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+.end__alt {
+  font-family: var(--mono);
+  font-size: .625rem;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--muted);
+  transition: color .4s var(--ease);
+}
+.end__alt:hover { color: var(--amber); }
+
 .foot {
   display: flex;
   flex-wrap: wrap;
@@ -1122,6 +1138,277 @@ html.is-leading { overflow: hidden; }
   text-transform: uppercase;
   color: var(--faint);
 }
+
+/* ============================================================
+   CONTACT PAGE — the slate, made editable
+
+   No new visual language: the same grid, mono labels, hairlines and
+   condensed values as .slatecard on the home page. There the slate is
+   read-only production data; here you fill it in.
+   ============================================================ */
+
+.act--contact {
+  min-height: 100svh;
+  padding-block: clamp(4rem, 10vh, 7rem) 4rem;
+}
+.cform { width: 100%; max-width: 78rem; margin-inline: auto; }
+
+.cform__head { max-width: 46rem; }
+.cform__back {
+  display: inline-flex;
+  align-items: center;
+  gap: .6rem;
+  margin-bottom: 2.5rem;
+  font-family: var(--mono);
+  font-size: .625rem;
+  letter-spacing: .28em;
+  text-transform: uppercase;
+  color: var(--muted);
+  transition: color .4s var(--ease);
+}
+.cform__back:hover { color: var(--amber); }
+.cform__back svg { width: 1.15rem; height: .7rem; fill: none; stroke: currentColor; stroke-width: 1.4; }
+
+.cform__title {
+  font-family: var(--cond);
+  font-weight: 800;
+  font-size: clamp(4rem, 13vw, 10rem);
+  line-height: .86;
+  letter-spacing: -.02em;
+  text-transform: uppercase;
+  margin-block: .12em .3em;
+  color: var(--bone);
+}
+
+.cform__body {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(0, .85fr);
+  gap: clamp(2rem, 5vw, 4.5rem);
+  align-items: start;
+  margin-top: clamp(2.5rem, 6vh, 4rem);
+}
+
+/* ── the editable slate ────────────────────────────────────── */
+
+.slate-form { display: flex; flex-direction: column; gap: 1px; }
+
+.slate-form__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: .45rem;
+  padding: .95rem 1.1rem;
+  background: var(--ink-2);
+  cursor: text;
+  transition: background-color .35s var(--ease);
+}
+.field:focus-within { background: var(--ink-3); }
+
+.field__k {
+  font-family: var(--mono);
+  font-size: .5625rem;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--muted);
+  transition: color .35s var(--ease);
+}
+.field:focus-within .field__k { color: var(--amber); }
+
+/* the value reads exactly like a slatecard dd — the field is invisible */
+.field__v {
+  width: 100%;
+  border: 0;
+  background: none;
+  padding: 0;
+  font-family: var(--cond);
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: .01em;
+  color: var(--bone);
+  outline: none;
+  appearance: none;
+  border-radius: 0;
+}
+.field__v::placeholder { color: var(--faint); font-weight: 400; }
+.field__v:focus-visible { outline: none; }
+.field__v.is-bad { color: var(--amber-hot); }
+.field.is-bad, .field__v.is-bad { box-shadow: inset 0 -1px 0 0 var(--amber-hot); }
+
+/* the select needs its own arrow once appearance is stripped */
+select.field__v {
+  cursor: pointer;
+  padding-right: 1.4rem;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%236E7580' stroke-width='1.4'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right .1rem center;
+}
+select.field__v option { background: var(--ink-2); color: var(--bone); }
+
+.field--wide {
+  border: 1px solid var(--line);
+  border-top: 0;
+}
+textarea.field__v {
+  font-family: var(--serif);
+  font-size: 1.0625rem;
+  font-weight: 300;
+  line-height: 1.6;
+  resize: vertical;
+  min-height: 8rem;
+}
+
+.cform__err {
+  margin-top: 1rem;
+  font-family: var(--mono);
+  font-size: .6875rem;
+  letter-spacing: .06em;
+  color: var(--amber-hot);
+}
+
+.cform__actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem 1.75rem;
+  margin-top: 1.75rem;
+}
+
+.roll {
+  display: inline-flex;
+  align-items: center;
+  gap: .7rem;
+  padding: .95rem 2rem;
+  border: 0;
+  cursor: pointer;
+  font-family: var(--mono);
+  font-size: .8125rem;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--ink);
+  background: var(--amber);
+  transition: background-color .4s var(--ease), transform .4s var(--ease);
+}
+.roll:hover { background: var(--amber-hot); transform: translateY(-2px); }
+.roll__dot {
+  width: .5rem;
+  height: .5rem;
+  border-radius: 50%;
+  background: var(--ink);
+  opacity: .55;
+}
+.roll:hover .roll__dot { animation: live 1.6s ease-out infinite; opacity: 1; }
+
+.cform__note {
+  font-family: var(--mono);
+  font-size: .5625rem;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--faint);
+  max-width: 26rem;
+}
+
+/* ── the stamp, once the slate is handed over ──────────────── */
+
+.slate-form.is-sent .slate-form__grid,
+.slate-form.is-sent .field--wide { border-color: var(--amber-soft); opacity: .45; }
+.slate-form.is-sent .cform__actions { display: none; }
+
+.stamp {
+  margin-top: 1.75rem;
+  padding: 1.5rem 1.75rem;
+  border: 1px solid var(--amber);
+  background: rgba(240, 160, 42, .06);
+}
+.stamp__k {
+  font-family: var(--mono);
+  font-size: .625rem;
+  letter-spacing: .28em;
+  text-transform: uppercase;
+  color: var(--amber);
+}
+.stamp__v {
+  font-family: var(--cond);
+  font-weight: 800;
+  font-size: clamp(1.75rem, 4vw, 2.75rem);
+  line-height: 1;
+  text-transform: uppercase;
+  color: var(--bone);
+  margin-top: .5rem;
+}
+.stamp__note {
+  margin-top: .75rem;
+  font-size: .9375rem;
+  line-height: 1.6;
+  color: var(--muted);
+  max-width: 40ch;
+}
+.stamp__note a { color: var(--amber); }
+
+/* ── the aside ─────────────────────────────────────────────── */
+
+.cform__aside { display: flex; flex-direction: column; gap: 2.25rem; }
+.cform__block { display: flex; flex-direction: column; gap: .6rem; }
+.cform__k {
+  font-family: var(--mono);
+  font-size: .5625rem;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding-bottom: .7rem;
+  border-bottom: 1px solid var(--line);
+}
+.cform__mail {
+  font-family: var(--cond);
+  font-size: 1.375rem;
+  font-weight: 600;
+  color: var(--bone);
+  transition: color .35s var(--ease);
+  word-break: break-all;
+}
+.cform__mail:hover { color: var(--amber); }
+.cform__list { list-style: none; display: flex; flex-direction: column; gap: .5rem; }
+.cform__list li {
+  position: relative;
+  padding-left: 1rem;
+  font-size: .9375rem;
+  line-height: 1.5;
+  color: var(--muted);
+}
+.cform__list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: .62em;
+  width: .3rem;
+  height: 1px;
+  background: var(--faint);
+}
+.cform__live {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  font-family: var(--cond);
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--amber);
+}
+.cform__live i {
+  width: .42rem;
+  height: .42rem;
+  border-radius: 50%;
+  background: var(--amber);
+  animation: live 2.4s ease-out infinite;
+}
+.cform__small { font-size: .875rem; line-height: 1.55; color: var(--muted); }
+
+.act--contact .foot { margin-top: clamp(4rem, 10vh, 6rem); }
 
 /* ============================================================
    Responsive
@@ -1163,6 +1450,8 @@ html.is-leading { overflow: hidden; }
   /* Work: the stage is already full-bleed; just give the copy more room
      and drop the number watermark, which fights the text at this width */
   .works__panel { bottom: clamp(3.5rem, 11svh, 5.5rem); max-width: none; }
+  /* contact: one column, form first */
+  .cform__body { grid-template-columns: minmax(0, 1fr); gap: 2.5rem; }
   .works__plate > span { display: none; }
   .proj__body { font-size: .9375rem; max-width: none; }
   .proj__facts { gap: .5rem 1.25rem; }
@@ -1170,6 +1459,7 @@ html.is-leading { overflow: hidden; }
 
 @media (max-width: 560px) {
   .slatecard { grid-template-columns: minmax(0, 1fr); }
+  .slate-form__grid { grid-template-columns: minmax(0, 1fr); }
   .frame { width: 78vw; }
   .foot { gap: .5rem 1.25rem; }
 }
