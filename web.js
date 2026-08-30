@@ -25,10 +25,10 @@ window.WEB = (function () {
 
   function mount(canvas, opts) {
     opts = opts || {};
-    // Density for a half-screen span. Fewer than this and the strands are so
-    // far apart it reads as a wireframe rather than a web.
-    var SPOKES = opts.spokes || 17;
-    var RINGS = opts.rings || 12;
+    // Density for a full-screen span. The strand count has to rise with the
+    // area or the spacing opens up and it reads as a wireframe, not a web.
+    var SPOKES = opts.spokes || 21;
+    var RINGS = opts.rings || 14;
     var CUT = opts.cut || 118;         // pointer radius, CSS px
     var CUT_RATE = opts.cutRate || 0.5;   // wipes to nothing in a few frames
     var HEAL = opts.heal || 0.003;     // ~5.5s to re-spin: the hole must last
