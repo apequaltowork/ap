@@ -114,11 +114,16 @@ a { color: inherit; text-decoration: none; }
   color: var(--bone);
   font-variant-numeric: tabular-nums;
 }
-.leader__n.is-tick { animation: leaderTick .42s var(--ease); }
-@keyframes leaderTick {
-  0%   { opacity: .25; transform: scale(1.06); }
-  18%  { opacity: 1;   transform: scale(1); }
-  100% { opacity: 1;   transform: scale(1); }
+/* No per-change punch on the numeral: at ~35 updates a second a scale
+   animation on every tick is a strobe, not an accent. The arc carries the
+   motion; the digits just count. */
+.leader__n i {
+  font-style: normal;
+  font-size: .32em;
+  margin-left: .12em;
+  vertical-align: baseline;
+  color: var(--amber);
+  letter-spacing: 0;
 }
 
 .leader__cue {

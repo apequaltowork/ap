@@ -1,14 +1,14 @@
 /* ============================================================
-   LEADER — an Academy countdown before the reel starts.
+   LEADER — a loading counter before the reel starts.
 
-   The film-native version of the counter-behind-an-overlay preloader:
-   a sweep hand rotates around a dial, the number steps down 8 → 2, a cue
-   dot fires, then the leader slips up out of the gate and the page is
-   there. Same mechanic as a 0→100 counter, but it belongs to this site.
+   Counts 0 → 100 behind a full-screen leader, then slips up out of the
+   gate and the page is there. Two rules make it feel deliberate rather
+   than like a stall:
 
-   Canvas draws the dial, crosshair, sweep and flicker; the numeral is a
-   DOM node so it uses the page's condensed face rather than a canvas
-   font fallback.
+     · it always takes at least RAMP ms, even from a warm cache, so a
+       fast load does not produce a meaningless flash of "100";
+     · it never SHOWS 100 until the page has genuinely finished loading.
+       The ramp parks at 99 and waits. So 100 always means 100.
 
      LEADER.step(nowMs)   advance by hand (rAF is paused in hidden tabs)
      LEADER.skip()        end it immediately
@@ -18,16 +18,17 @@
 window.LEADER = (function () {
   "use strict";
 
-  var FROM = 8, TO = 2;                 // classic leader counts down to 2
-  var STEP = 420;                       // ms per number
-  var HOLD = 250;                       // cue dot beat before the wipe
-  var COUNT_MS = (FROM - TO + 1) * STEP;
-  var TOTAL = COUNT_MS + HOLD;
+  var RAMP = 2800;    // ms to climb 0 → 100, floor on the whole intro
+  var HOLD = 420;     // beat at 100 before the wipe
+  var TOTAL = RAMP + HOLD;
 
-  var root, cv, ctx, numEl, cueEl, brandEl;
+  var root, cv, ctx, numEl, cueEl;
   var t0 = null, raf = 0, W = 0, H = 0, dpr = 1;
+  var loaded = false, shown = -1;
 
   var api = { done: false, step: step, skip: skip, total: TOTAL };
+
+  var clamp01 = function (v) { return v < 0 ? 0 : v > 1 ? 1 : v; };
 
   function sizeCanvas() {
     if (!cv) return;
@@ -38,7 +39,7 @@ window.LEADER = (function () {
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   }
 
-  function draw(elapsed) {
+  function draw(pct, elapsed) {
     if (!ctx || !W) return;
     var cx = W / 2, cy = H / 2;
     var R = Math.min(W, H) * 0.30;
@@ -53,41 +54,41 @@ window.LEADER = (function () {
     ctx.moveTo(0, cy); ctx.lineTo(W, cy);
     ctx.stroke();
 
-    // concentric rings
-    ctx.strokeStyle = "rgba(233,229,220,.18)";
-    for (var i = 0; i < 3; i++) {
-      ctx.beginPath();
-      ctx.arc(cx, cy, R * (1 - i * 0.28), 0, 6.2832);
-      ctx.stroke();
-    }
+    // the dial the progress runs around
+    ctx.strokeStyle = "rgba(233,229,220,.16)";
+    ctx.beginPath();
+    ctx.arc(cx, cy, R, 0, 6.2832);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.arc(cx, cy, R * 0.72, 0, 6.2832);
+    ctx.stroke();
 
-    // the sweep: one full turn per number, wiping a faint wedge behind it
-    var into = (elapsed % STEP) / STEP;
+    // progress arc — the number and the ring are the same fact
     var a0 = -Math.PI / 2;
-    var a1 = a0 + into * 6.2832;
+    var a1 = a0 + (pct / 100) * 6.2832;
+    ctx.strokeStyle = "rgba(240,160,42,.9)";
+    ctx.lineWidth = 2;
+    ctx.lineCap = "round";
+    ctx.beginPath();
+    ctx.arc(cx, cy, R, a0, a1);
+    ctx.stroke();
+    ctx.lineWidth = 1;
+    ctx.lineCap = "butt";
 
-    ctx.fillStyle = "rgba(233,229,220,.055)";
+    // a faint wedge trailing the arc, so the dial reads as swept
+    ctx.fillStyle = "rgba(233,229,220,.045)";
     ctx.beginPath();
     ctx.moveTo(cx, cy);
     ctx.arc(cx, cy, R, a0, a1);
     ctx.closePath();
     ctx.fill();
 
-    ctx.strokeStyle = "rgba(240,160,42,.85)";
-    ctx.lineWidth = 1.5;
-    ctx.beginPath();
-    ctx.moveTo(cx, cy);
-    ctx.lineTo(cx + Math.cos(a1) * R, cy + Math.sin(a1) * R);
-    ctx.stroke();
-
     // sparse dust, so the black is never dead flat
     ctx.fillStyle = "rgba(233,229,220,.05)";
     for (var d = 0; d < 26; d++) {
-      var s = Math.sin((d * 12.9898 + Math.floor(elapsed / 90) * 78.233)) * 43758.5453;
-      var rx = (s - Math.floor(s)) * W;
-      var s2 = Math.sin((d * 4.1414 + Math.floor(elapsed / 90) * 12.345)) * 24634.6345;
-      var ry = (s2 - Math.floor(s2)) * H;
-      ctx.fillRect(rx, ry, 1.5, 1.5);
+      var s = Math.sin(d * 12.9898 + Math.floor(elapsed / 90) * 78.233) * 43758.5453;
+      var s2 = Math.sin(d * 4.1414 + Math.floor(elapsed / 90) * 12.345) * 24634.6345;
+      ctx.fillRect((s - Math.floor(s)) * W, (s2 - Math.floor(s2)) * H, 1.5, 1.5);
     }
   }
 
@@ -96,22 +97,23 @@ window.LEADER = (function () {
     if (t0 === null) t0 = now;
     var elapsed = now - t0;
 
-    if (elapsed < COUNT_MS) {
-      var n = FROM - Math.floor(elapsed / STEP);
-      if (n < TO) n = TO;
-      if (numEl.textContent !== String(n)) {
-        numEl.textContent = String(n);
-        // retrigger the per-number punch
-        numEl.classList.remove("is-tick");
-        void numEl.offsetWidth;
-        numEl.classList.add("is-tick");
-      }
-      draw(elapsed);
-    } else if (elapsed < TOTAL) {
+    // The floor: the climb always takes RAMP, however fast the page was.
+    var pct = Math.floor(clamp01(elapsed / RAMP) * 100);
+
+    // The ceiling: 100 is only ever shown once loading has actually
+    // finished. If the page is still working, the counter waits on 99.
+    if (pct >= 100 && !loaded) pct = 99;
+
+    if (pct !== shown) {
+      shown = pct;
+      numEl.textContent = pct < 10 ? "00" + pct : pct < 100 ? "0" + pct : "100";
+    }
+    draw(pct, elapsed);
+
+    if (pct >= 100) {
       if (!cueEl.classList.contains("is-on")) cueEl.classList.add("is-on");
-      draw(elapsed);
-    } else {
-      finish();
+      // hold at 100 so it registers, then go
+      if (elapsed >= RAMP + HOLD) finish();
     }
   }
 
@@ -127,7 +129,6 @@ window.LEADER = (function () {
     unlock();
     if (!root) return;
     root.classList.add("is-out");
-    // remove once the slip has played, so it can never trap a click
     setTimeout(function () { if (root && root.parentNode) root.parentNode.removeChild(root); }, 1100);
   }
 
@@ -135,13 +136,13 @@ window.LEADER = (function () {
 
   function unlock() { document.documentElement.classList.remove("is-leading"); }
 
+  function markLoaded() { loaded = true; }
+
   function boot() {
     // Failsafe. The leader covers the page and html.is-leading kills
     // scrolling, so if rAF never runs — a stalled frame loop, a tab that
-    // loaded in the background — the whole thing has to end itself. It ends
-    // properly rather than just unlocking: unlocking alone would leave a
-    // black overlay sitting there that you could scroll uselessly behind.
-    setTimeout(function () { finish(); }, 6000);
+    // loaded in the background — the whole thing has to end itself.
+    setTimeout(function () { finish(); }, 9000);
 
     root = document.querySelector("[data-leader]");
     if (!root) { unlock(); api.done = true; return; }
@@ -162,17 +163,29 @@ window.LEADER = (function () {
     ctx = cv.getContext("2d");
     numEl = root.querySelector("[data-leader-n]");
     cueEl = root.querySelector("[data-leader-cue]");
-    brandEl = root.querySelector("[data-leader-brand]");
+
+    // what "loaded" actually means: the document is done and the webfonts
+    // have resolved, since the whole page is set in them
+    if (document.readyState === "complete") markLoaded();
+    else addEventListener("load", markLoaded, { once: true });
+    if (document.fonts && document.fonts.ready) {
+      var docDone = new Promise(function (res) {
+        if (document.readyState === "complete") res();
+        else addEventListener("load", res, { once: true });
+      });
+      Promise.all([document.fonts.ready, docDone]).then(markLoaded);
+    }
+    // never let a stuck resource hold the counter on 99 forever
+    setTimeout(markLoaded, 5000);
 
     sizeCanvas();
     addEventListener("resize", sizeCanvas);
 
-    // any intent to move on ends it
     ["click", "keydown", "wheel", "touchstart"].forEach(function (ev) {
       addEventListener(ev, skip, { once: true, passive: true });
     });
 
-    numEl.textContent = String(FROM);
+    numEl.textContent = "000";
     raf = requestAnimationFrame(loop);
   }
 
