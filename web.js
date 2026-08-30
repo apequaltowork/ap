@@ -37,6 +37,8 @@ window.WEB = (function () {
     var ctx = canvas.getContext("2d");
     var W = 0, H = 0, dpr = 1;
     var nodes = [], edges = [], nodeHealth = [];
+    var adj = [], edgeAt = null;      // adjacency, for walking the strands
+    var spider = null, walk = 0;
     var px = -9999, py = -9999, on = false;
 
     var api = {
@@ -50,7 +52,13 @@ window.WEB = (function () {
           if (edges[i].h <= 0.02) cut++;
           else if (edges[i].h < 0.92) mending++;
         }
-        return { edges: edges.length, min: +min.toFixed(3), cut: cut, mending: mending, on: on, px: Math.round(px), py: Math.round(py) };
+        return {
+          edges: edges.length, min: +min.toFixed(3), cut: cut, mending: mending,
+          on: on, px: Math.round(px), py: Math.round(py),
+          spider: spider ? { x: Math.round(spider.x), y: Math.round(spider.y),
+                             from: spider.from, to: spider.to,
+                             alert: +spider.alert.toFixed(2) } : null
+        };
       }
     };
 
@@ -98,6 +106,131 @@ window.WEB = (function () {
           if (si < SPOKES - 1) edges.push({ a: at2(si, ri), b: at2(si + 1, ri), h: 1 });
         }
       }
+
+      // adjacency + an edge lookup, so the spider can only travel along real
+      // strands and can be stopped by a cut one
+      adj = [];
+      for (var k = 0; k < nodes.length; k++) adj.push([]);
+      edgeAt = new Map();
+      for (var ei = 0; ei < edges.length; ei++) {
+        var ed = edges[ei];
+        adj[ed.a].push(ed.b);
+        adj[ed.b].push(ed.a);
+        edgeAt.set(ed.a * nodes.length + ed.b, ei);
+        edgeAt.set(ed.b * nodes.length + ed.a, ei);
+      }
+
+      // drop the spider somewhere on-canvas
+      var start = 0;
+      for (var q = 0; q < nodes.length; q++) {
+        if (nodes[q].hx > W * 0.25 && nodes[q].hx < W * 0.9 &&
+            nodes[q].hy > H * 0.15 && nodes[q].hy < H * 0.7) { start = q; break; }
+      }
+      spider = { from: start, to: adj[start][0] != null ? adj[start][0] : start,
+                 t: 0, x: nodes[start].hx, y: nodes[start].hy, ang: 0, alert: 0 };
+    }
+
+    function strandHealth(a, b) {
+      var i = edgeAt ? edgeAt.get(a * nodes.length + b) : undefined;
+      return i === undefined ? 0 : edges[i].h;
+    }
+
+    // Idle it ambles to a random neighbour. When the pointer is on the web it
+    // heads for it, one strand at a time, always choosing the neighbour that
+    // closes the distance — a real spider runs at a disturbance, and here the
+    // pointer IS the disturbance, since it is what tears the web.
+    function nextNode(sp, active) {
+      var here = sp.to;
+      var options = adj[here] || [];
+      var best = -1, bestScore = Infinity;
+      for (var i = 0; i < options.length; i++) {
+        var cand = options[i];
+        if (strandHealth(here, cand) < 0.25) continue;   // cut: cannot cross
+        var score;
+        if (active) {
+          var dx = nodes[cand].x - px, dy = nodes[cand].y - py;
+          score = dx * dx + dy * dy;
+          if (cand === sp.from) score *= 1.6;            // prefer not to backtrack
+        } else {
+          score = Math.random() * 100;
+          if (cand === sp.from) score += 140;
+        }
+        if (score < bestScore) { bestScore = score; best = cand; }
+      }
+      if (best === -1) return here;                      // hemmed in by cuts
+      return best;
+    }
+
+    function stepSpider(active) {
+      if (!spider || !nodes.length) return;
+      var sp = spider;
+      sp.alert += ((active ? 1 : 0) - sp.alert) * 0.06;
+
+      var A = nodes[sp.from], B = nodes[sp.to];
+      var len = Math.max(1, Math.hypot(B.x - A.x, B.y - A.y));
+      var speed = (active ? 2.35 : 0.85) / len;          // px/frame, normalised
+      sp.t += speed;
+      walk += active ? 0.34 : 0.16;
+
+      while (sp.t >= 1) {
+        sp.t -= 1;
+        var nxt = nextNode(sp, active);
+        sp.from = sp.to;
+        sp.to = nxt;
+        A = nodes[sp.from]; B = nodes[sp.to];
+      }
+
+      var nx = A.x + (B.x - A.x) * sp.t;
+      var ny = A.y + (B.y - A.y) * sp.t;
+      var ta = Math.atan2(B.y - A.y, B.x - A.x);
+      // turn smoothly rather than snapping at each junction
+      var da = ((ta - sp.ang + Math.PI * 3) % (Math.PI * 2)) - Math.PI;
+      sp.ang += da * 0.18;
+      sp.x = nx; sp.y = ny;
+    }
+
+    function drawSpider() {
+      var sp = spider;
+      if (!sp) return;
+      if (sp.x < -40 || sp.x > W + 40 || sp.y < -40 || sp.y > H + 40) return;
+
+      var alert = sp.alert;
+      var tone = alert > 0.5 ? AMBER : BONE;
+      ctx.save();
+      ctx.translate(sp.x, sp.y);
+      ctx.rotate(sp.ang);
+
+      // eight legs, two segments each, with a gait offset per pair
+      ctx.strokeStyle = "rgba(" + tone + ",.85)";
+      ctx.lineWidth = 0.9;
+      ctx.lineCap = "round";
+      for (var side = -1; side <= 1; side += 2) {
+        for (var i = 0; i < 4; i++) {
+          var swing = Math.sin(walk + i * 1.1 + (side > 0 ? Math.PI : 0)) * 0.22;
+          var base = (1.5 - i) * 1.05;
+          var out = (0.75 + i * 0.16) + swing;
+          var femur = 5.2 + i * 0.5;
+          var tibia = 5.8 + i * 0.6;
+          var kx = base + Math.cos(out) * femur * side * 0 + Math.cos(out) * femur;
+          var ky = side * Math.sin(out) * femur;
+          ctx.beginPath();
+          ctx.moveTo(base, 0);
+          ctx.lineTo(kx * 0.55 + base * 0.45, ky * 0.7);
+          ctx.lineTo(kx * 0.5 + base * 0.2, ky + side * tibia * 0.55);
+          ctx.stroke();
+        }
+      }
+
+      // abdomen and head
+      ctx.fillStyle = "rgba(" + tone + ",.92)";
+      ctx.beginPath();
+      ctx.ellipse(-2.6, 0, 3.4, 2.7, 0, 0, 6.2832);
+      ctx.fill();
+      ctx.beginPath();
+      ctx.ellipse(1.6, 0, 1.9, 1.6, 0, 0, 6.2832);
+      ctx.fill();
+
+      ctx.restore();
     }
 
     function resize() {
@@ -199,6 +332,10 @@ window.WEB = (function () {
         ctx.fillStyle = "rgba(" + BONE + "," + (nh * 0.34).toFixed(3) + ")";
         ctx.fillRect(n.x - 0.9, n.y - 0.9, 1.8, 1.8);
       }
+
+      // the spider rides on top of its own web
+      stepSpider(active);
+      drawSpider();
     }
 
     resize();
