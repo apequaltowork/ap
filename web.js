@@ -27,8 +27,8 @@ window.WEB = (function () {
     opts = opts || {};
     // Density for a full-screen span. The strand count has to rise with the
     // area or the spacing opens up and it reads as a wireframe, not a web.
-    var SPOKES = opts.spokes || 21;
-    var RINGS = opts.rings || 14;
+    var SPOKES = opts.spokes || 24;
+    var RINGS = opts.rings || 17;
     var CUT = opts.cut || 118;         // pointer radius, CSS px
     var CUT_RATE = opts.cutRate || 0.5;   // wipes to nothing in a few frames
     var HEAL = opts.heal || 0.003;     // ~5.5s to re-spin: the hole must last
@@ -75,9 +75,11 @@ window.WEB = (function () {
 
       // anchor just off the top-right corner
       var ax = W * 1.04, ay = -H * 0.06;
-      var maxR = Math.sqrt(W * W + H * H) * 1.12;
-      var a0 = Math.PI * 0.52;          // pointing down
-      var a1 = Math.PI * 1.02;          // round to pointing left
+      var maxR = Math.sqrt(W * W + H * H) * 1.30;
+      // a wider fan than a quarter turn, so the sheet wraps past the corner
+      // and reaches the bottom-left rather than stopping on the diagonal
+      var a0 = Math.PI * 0.42;          // above the downward vertical
+      var a1 = Math.PI * 1.10;          // past the leftward horizontal
 
       for (var s = 0; s < SPOKES; s++) {
         var t = s / (SPOKES - 1);
@@ -189,46 +191,89 @@ window.WEB = (function () {
       sp.x = nx; sp.y = ny;
     }
 
+    // Anatomy, roughly: a small cephalothorax in front, a larger rounder
+    // abdomen behind, and four pairs of legs fanning from forward-out to
+    // back-out. Each leg bends at a knee and the tarsus curls further out
+    // and back, which is what gives a spider its shallow arched silhouette
+    // from above. Legs taper — a femur drawn at the tarsus's width reads
+    // like a stick insect.
+    var LEGS = [
+      { a: 0.62, f: 8.6, t: 9.4, bend: 0.62 },   // front pair, reaching
+      { a: 1.16, f: 9.4, t: 10.2, bend: 0.50 },
+      { a: 1.86, f: 9.0, t: 9.8, bend: -0.46 },
+      { a: 2.42, f: 8.0, t: 8.8, bend: -0.60 }   // rear pair, trailing
+    ];
+
     function drawSpider() {
       var sp = spider;
       if (!sp) return;
-      if (sp.x < -40 || sp.x > W + 40 || sp.y < -40 || sp.y > H + 40) return;
+      if (sp.x < -60 || sp.x > W + 60 || sp.y < -60 || sp.y > H + 60) return;
 
-      var alert = sp.alert;
-      var tone = alert > 0.5 ? AMBER : BONE;
+      var tone = sp.alert > 0.5 ? AMBER : BONE;
+      var a = 0.55 + sp.alert * 0.35;
+
       ctx.save();
       ctx.translate(sp.x, sp.y);
       ctx.rotate(sp.ang);
-
-      // eight legs, two segments each, with a gait offset per pair
-      ctx.strokeStyle = "rgba(" + tone + ",.85)";
-      ctx.lineWidth = 0.9;
       ctx.lineCap = "round";
+      ctx.lineJoin = "round";
+
       for (var side = -1; side <= 1; side += 2) {
         for (var i = 0; i < 4; i++) {
-          var swing = Math.sin(walk + i * 1.1 + (side > 0 ? Math.PI : 0)) * 0.22;
-          var base = (1.5 - i) * 1.05;
-          var out = (0.75 + i * 0.16) + swing;
-          var femur = 5.2 + i * 0.5;
-          var tibia = 5.8 + i * 0.6;
-          var kx = base + Math.cos(out) * femur * side * 0 + Math.cos(out) * femur;
-          var ky = side * Math.sin(out) * femur;
+          var L = LEGS[i];
+          // alternating tetrapod: 1 and 3 swing with the other side's 2 and 4
+          var phase = walk + i * 1.9 + (side > 0 ? Math.PI : 0);
+          var swing = Math.sin(phase);
+          var ang = L.a + swing * 0.13;
+          var reach = 1 + swing * 0.06;      // steps out a little as it swings
+
+          var ax = 1.3, ay = side * 1.5;     // attachment on the cephalothorax
+          var kx = ax + Math.cos(ang) * L.f * reach;
+          var ky = ay + side * Math.sin(ang) * L.f * reach;
+          var fx = kx + Math.cos(ang + L.bend) * L.t * reach;
+          var fy = ky + side * Math.sin(ang + L.bend) * L.t * reach;
+
+          ctx.strokeStyle = "rgba(" + tone + "," + a.toFixed(2) + ")";
+          ctx.lineWidth = 1.15;
           ctx.beginPath();
-          ctx.moveTo(base, 0);
-          ctx.lineTo(kx * 0.55 + base * 0.45, ky * 0.7);
-          ctx.lineTo(kx * 0.5 + base * 0.2, ky + side * tibia * 0.55);
+          ctx.moveTo(ax, ay);
+          ctx.lineTo(kx, ky);
+          ctx.stroke();
+
+          ctx.lineWidth = 0.7;               // tarsus is thinner than the femur
+          ctx.beginPath();
+          ctx.moveTo(kx, ky);
+          ctx.lineTo(fx, fy);
           ctx.stroke();
         }
       }
 
-      // abdomen and head
-      ctx.fillStyle = "rgba(" + tone + ",.92)";
+      // pedipalps — the short pair at the front that reads as "head end"
+      ctx.lineWidth = 0.8;
+      ctx.strokeStyle = "rgba(" + tone + "," + (a * 0.85).toFixed(2) + ")";
+      for (var p = -1; p <= 1; p += 2) {
+        ctx.beginPath();
+        ctx.moveTo(2.4, p * 0.9);
+        ctx.lineTo(5.6, p * 2.2);
+        ctx.stroke();
+      }
+
+      // abdomen, then cephalothorax over it
+      ctx.fillStyle = "rgba(" + tone + "," + Math.min(1, a + 0.32).toFixed(2) + ")";
       ctx.beginPath();
-      ctx.ellipse(-2.6, 0, 3.4, 2.7, 0, 0, 6.2832);
+      ctx.ellipse(-4.4, 0, 5.2, 4.1, 0, 0, 6.2832);
       ctx.fill();
       ctx.beginPath();
-      ctx.ellipse(1.6, 0, 1.9, 1.6, 0, 0, 6.2832);
+      ctx.ellipse(1.1, 0, 2.9, 2.4, 0, 0, 6.2832);
       ctx.fill();
+
+      // a darker seam down the abdomen so it is not a flat blob
+      ctx.strokeStyle = "rgba(11,13,17,.55)";
+      ctx.lineWidth = 1.1;
+      ctx.beginPath();
+      ctx.moveTo(-7.6, 0);
+      ctx.lineTo(-2.4, 0);
+      ctx.stroke();
 
       ctx.restore();
     }
