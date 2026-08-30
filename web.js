@@ -25,8 +25,10 @@ window.WEB = (function () {
 
   function mount(canvas, opts) {
     opts = opts || {};
-    var SPOKES = opts.spokes || 13;
-    var RINGS = opts.rings || 9;
+    // Density for a half-screen span. Fewer than this and the strands are so
+    // far apart it reads as a wireframe rather than a web.
+    var SPOKES = opts.spokes || 17;
+    var RINGS = opts.rings || 12;
     var CUT = opts.cut || 118;         // pointer radius, CSS px
     var CUT_RATE = opts.cutRate || 0.5;   // wipes to nothing in a few frames
     var HEAL = opts.heal || 0.003;     // ~5.5s to re-spin: the hole must last
@@ -119,12 +121,21 @@ window.WEB = (function () {
       var cut2 = CUT * CUT;
       var i, n;
 
+      // Only cut where the web is actually drawn. The geometry runs well
+      // outside the canvas — spokes reach hundreds of px to the left — so a
+      // pointer on the far side of the screen still maps inside the web and
+      // was quietly shredding strands nobody can see, which then never healed
+      // because it kept re-cutting them.
+      var active = on &&
+        px > -CUT && px < W + CUT &&
+        py > -CUT && py < H + CUT;
+
       // nodes: shoved by the pointer, sprung back to where they were spun
       for (i = 0; i < nodes.length; i++) {
         n = nodes[i];
         var ax = (n.hx - n.x) * 0.055;
         var ay = (n.hy - n.y) * 0.055;
-        if (on) {
+        if (active) {
           var dx = n.x - px, dy = n.y - py;
           var d2 = dx * dx + dy * dy;
           if (d2 < cut2 * 2.2 && d2 > 0.01) {
@@ -147,7 +158,7 @@ window.WEB = (function () {
         var A = nodes[e.a], B = nodes[e.b];
         var mx = (A.x + B.x) * 0.5, my = (A.y + B.y) * 0.5;
 
-        if (on) {
+        if (active) {
           var ex = mx - px, ey = my - py;
           var ed2 = ex * ex + ey * ey;
           if (ed2 < cut2) {

@@ -24,12 +24,14 @@
   if (webCv && window.WEB && !RIG.reduced && !RIG.coarse) {
     var web = WEB.mount(webCv);
     window.__web = web;   // handle for verification
-    var wbox = { left: 0, topDoc: 0 };
+    // the canvas is position:fixed, so its rect does not move with scroll —
+    // no scroll compensation needed when mapping the pointer into it
+    var wbox = { left: 0, top: 0 };
 
     var wmeasure = function () {
       var r = webCv.getBoundingClientRect();
       wbox.left = r.left;
-      wbox.topDoc = r.top + window.scrollY;
+      wbox.top = r.top;
       web.resize();
     };
     wmeasure();
@@ -44,8 +46,8 @@
     addEventListener("pointerleave", function () { wptr.on = false; web.leave(); });
     addEventListener("blur", function () { wptr.on = false; web.leave(); });
 
-    RIG.frame(function (y) {
-      if (wptr.on) web.at(wptr.cx - wbox.left, wptr.cy - (wbox.topDoc - y));
+    RIG.frame(function () {
+      if (wptr.on) web.at(wptr.cx - wbox.left, wptr.cy - wbox.top);
       else web.leave();
       web.frame();
     });

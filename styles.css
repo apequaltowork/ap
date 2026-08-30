@@ -1353,30 +1353,26 @@ textarea.field__v {
 
 /* ── the aside, over the web ───────────────────────────────── */
 
-/* stretches to the form's height so the web has the whole column to
-   hang in, rather than only the height of the text */
-.cform__right { position: relative; align-self: stretch; min-height: 30rem; }
-/* Sized explicitly, not by inset. <canvas> is a replaced element: with
-   width/height auto it takes its intrinsic 300x150 and ignores the offsets
-   entirely, which is not what inset does to a normal div. It bleeds a little
-   past the column so the web is not boxed in by it. */
+/* The web hangs from the top-right corner of the viewport across about half
+   its width — fixed, so it stays put while the page scrolls under it.
+
+   Sized explicitly, not by inset: <canvas> is a replaced element, and with
+   width/height auto it takes its intrinsic 300x150 and ignores offsets
+   entirely, unlike a div.
+
+   z-index 0 keeps it under .stage (z-index 1), so every strand passes behind
+   the type rather than over it. */
 .cweb {
-  position: absolute;
-  top: -2rem;
-  left: -3.5rem;
-  width: calc(100% + 5.5rem);
-  height: calc(100% + 4rem);
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: min(52vw, 62rem);
+  height: 100vh;
   z-index: 0;
   pointer-events: none;   /* the strands never block a click */
 }
 
-.cform__aside {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 2.25rem;
-}
+.cform__aside { display: flex; flex-direction: column; gap: 2.25rem; }
 .cform__block { display: flex; flex-direction: column; gap: .6rem; }
 .cform__k {
   font-family: var(--mono);
@@ -1476,7 +1472,6 @@ textarea.field__v {
   /* contact: one column, form first. The web needs a cursor to tear it,
      so it is hidden rather than sitting there as a static drawing. */
   .cform__body { grid-template-columns: minmax(0, 1fr); gap: 2.5rem; }
-  .cform__right { min-height: 0; }
   .cweb { display: none; }
   .works__plate > span { display: none; }
   .proj__body { font-size: .9375rem; max-width: none; }
