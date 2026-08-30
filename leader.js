@@ -1,14 +1,14 @@
 /* ============================================================
-   LEADER — a loading counter before the reel starts.
+   LEADER — a countdown before the reel starts.
 
-   Counts 0 → 100 behind a full-screen leader, then slips up out of the
+   Counts 10 → 0 behind a full-screen leader, then slips up out of the
    gate and the page is there. Two rules make it feel deliberate rather
    than like a stall:
 
      · it always takes at least RAMP ms, even from a warm cache, so a
-       fast load does not produce a meaningless flash of "100";
-     · it never SHOWS 100 until the page has genuinely finished loading.
-       The ramp parks at 99 and waits. So 100 always means 100.
+       fast load does not produce a meaningless flash of "0";
+     · it never SHOWS 0 until the page has genuinely finished loading.
+       The count parks on 1 and waits. So 0 always means ready.
 
      LEADER.step(nowMs)   advance by hand (rAF is paused in hidden tabs)
      LEADER.skip()        end it immediately
@@ -18,8 +18,10 @@
 window.LEADER = (function () {
   "use strict";
 
-  var RAMP = 2800;    // ms to climb 0 → 100, floor on the whole intro
-  var HOLD = 420;     // beat at 100 before the wipe
+  var FROM = 10, TO = 0;
+  var SLOTS = FROM - TO + 1;   // 11 numbers, each gets an equal share
+  var RAMP = 2800;    // ms to count all the way down; floor on the intro
+  var HOLD = 420;     // beat on 0 before the wipe
   var TOTAL = RAMP + HOLD;
 
   var root, cv, ctx, numEl, cueEl;
@@ -39,7 +41,9 @@ window.LEADER = (function () {
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   }
 
-  function draw(pct, elapsed) {
+  // `frac` is how much of the dial is still filled: 1 at the start of the
+  // count, 0 when it reaches zero.
+  function draw(frac, elapsed) {
     if (!ctx || !W) return;
     var cx = W / 2, cy = H / 2;
     var R = Math.min(W, H) * 0.30;
@@ -63,9 +67,9 @@ window.LEADER = (function () {
     ctx.arc(cx, cy, R * 0.72, 0, 6.2832);
     ctx.stroke();
 
-    // progress arc — the number and the ring are the same fact
+    // the arc — the number and the ring are the same fact
     var a0 = -Math.PI / 2;
-    var a1 = a0 + (pct / 100) * 6.2832;
+    var a1 = a0 + frac * 6.2832;
     ctx.strokeStyle = "rgba(240,160,42,.9)";
     ctx.lineWidth = 2;
     ctx.lineCap = "round";
@@ -97,22 +101,24 @@ window.LEADER = (function () {
     if (t0 === null) t0 = now;
     var elapsed = now - t0;
 
-    // The floor: the climb always takes RAMP, however fast the page was.
-    var pct = Math.floor(clamp01(elapsed / RAMP) * 100);
+    // The floor: the count always takes RAMP, however fast the page was.
+    var ramp = clamp01(elapsed / RAMP);
+    var n = FROM - Math.min(FROM - TO, Math.floor(ramp * SLOTS));
 
-    // The ceiling: 100 is only ever shown once loading has actually
-    // finished. If the page is still working, the counter waits on 99.
-    if (pct >= 100 && !loaded) pct = 99;
+    // The ceiling: 0 is only ever shown once loading has actually
+    // finished. If the page is still working, the count waits on 1.
+    if (n <= TO && !loaded) n = TO + 1;
 
-    if (pct !== shown) {
-      shown = pct;
-      numEl.textContent = pct < 10 ? "00" + pct : pct < 100 ? "0" + pct : "100";
+    if (n !== shown) {
+      shown = n;
+      numEl.textContent = n < 10 ? "0" + n : String(n);
     }
-    draw(pct, elapsed);
+    // the arc empties as the number falls — same fact, drawn twice
+    draw(1 - ramp, elapsed);
 
-    if (pct >= 100) {
+    if (n <= TO) {
       if (!cueEl.classList.contains("is-on")) cueEl.classList.add("is-on");
-      // hold at 100 so it registers, then go
+      // hold on zero so it registers, then go
       if (elapsed >= RAMP + HOLD) finish();
     }
   }
@@ -173,7 +179,7 @@ window.LEADER = (function () {
       });
       Promise.all([document.fonts.ready, docDone]).then(markLoaded);
     }
-    // never let a stuck resource hold the counter on 99 forever
+    // never let a stuck resource hold the count on 1 forever
     setTimeout(markLoaded, 5000);
 
     sizeCanvas();
@@ -182,10 +188,10 @@ window.LEADER = (function () {
     // Deliberately no skip-on-interaction. It used to end on any click,
     // key, wheel or touch — and a wheel fires the moment someone rests a
     // finger on the trackpad, so the count was routinely cut off partway.
-    // It runs to 100 and finishes on its own. LEADER.skip() still exists
+    // It counts to zero and finishes on its own. LEADER.skip() still exists
     // for the console, and the failsafe above still covers a stalled loop.
 
-    numEl.textContent = "000";
+    numEl.textContent = String(FROM);
     raf = requestAnimationFrame(loop);
   }
 

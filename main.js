@@ -294,8 +294,12 @@
 
   /* ── frame slip: a frame passes the gate on act handover ───── */
 
+  // Turned off for now. Flip to true to bring the band back — the markup,
+  // CSS and logic all stay in place, nothing was deleted.
+  var SLIP_ENABLED = false;
+
   var slip = $("[data-slip]");
-  if (slip && !RIG.reduced) {
+  if (SLIP_ENABLED && slip && !RIG.reduced) {
     var bounds = [];
     var lastAct = -1;
     var slipUntil = 0;
