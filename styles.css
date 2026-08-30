@@ -1351,9 +1351,32 @@ textarea.field__v {
 }
 .stamp__note a { color: var(--amber); }
 
-/* ── the aside ─────────────────────────────────────────────── */
+/* ── the aside, over the web ───────────────────────────────── */
 
-.cform__aside { display: flex; flex-direction: column; gap: 2.25rem; }
+/* stretches to the form's height so the web has the whole column to
+   hang in, rather than only the height of the text */
+.cform__right { position: relative; align-self: stretch; min-height: 30rem; }
+/* Sized explicitly, not by inset. <canvas> is a replaced element: with
+   width/height auto it takes its intrinsic 300x150 and ignores the offsets
+   entirely, which is not what inset does to a normal div. It bleeds a little
+   past the column so the web is not boxed in by it. */
+.cweb {
+  position: absolute;
+  top: -2rem;
+  left: -3.5rem;
+  width: calc(100% + 5.5rem);
+  height: calc(100% + 4rem);
+  z-index: 0;
+  pointer-events: none;   /* the strands never block a click */
+}
+
+.cform__aside {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2.25rem;
+}
 .cform__block { display: flex; flex-direction: column; gap: .6rem; }
 .cform__k {
   font-family: var(--mono);
@@ -1450,8 +1473,11 @@ textarea.field__v {
   /* Work: the stage is already full-bleed; just give the copy more room
      and drop the number watermark, which fights the text at this width */
   .works__panel { bottom: clamp(3.5rem, 11svh, 5.5rem); max-width: none; }
-  /* contact: one column, form first */
+  /* contact: one column, form first. The web needs a cursor to tear it,
+     so it is hidden rather than sitting there as a static drawing. */
   .cform__body { grid-template-columns: minmax(0, 1fr); gap: 2.5rem; }
+  .cform__right { min-height: 0; }
+  .cweb { display: none; }
   .works__plate > span { display: none; }
   .proj__body { font-size: .9375rem; max-width: none; }
   .proj__facts { gap: .5rem 1.25rem; }

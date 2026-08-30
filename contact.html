@@ -129,27 +129,31 @@
           </div>
         </form>
 
-        <aside class="cform__aside" data-rise>
-          <div class="cform__block">
-            <p class="cform__k">Direct</p>
-            <a class="cform__mail" href="mailto:apequaltowork@gmail.com">apequaltowork@gmail.com</a>
-          </div>
-          <div class="cform__block">
-            <p class="cform__k">Worth including</p>
-            <ul class="cform__list">
-              <li>Links to the site or app in question</li>
-              <li>What is broken, or what is missing</li>
-              <li>Whether anyone built it before you</li>
-              <li>Stack, if you know it</li>
-              <li>Any hard deadline</li>
-            </ul>
-          </div>
-          <div class="cform__block">
-            <p class="cform__k">Status</p>
-            <p class="cform__live"><i></i>Open to work</p>
-            <p class="cform__small">Project work or ongoing maintenance. I will say if I am not the right fit.</p>
-          </div>
-        </aside>
+        <div class="cform__right">
+          <!-- the web is decoration; the aside sits over it -->
+          <canvas class="cweb" data-web aria-hidden="true"></canvas>
+          <aside class="cform__aside" data-rise>
+            <div class="cform__block">
+              <p class="cform__k">Direct</p>
+              <a class="cform__mail" href="mailto:apequaltowork@gmail.com">apequaltowork@gmail.com</a>
+            </div>
+            <div class="cform__block">
+              <p class="cform__k">Worth including</p>
+              <ul class="cform__list">
+                <li>Links to the site or app in question</li>
+                <li>What is broken, or what is missing</li>
+                <li>Whether anyone built it before you</li>
+                <li>Stack, if you know it</li>
+                <li>Any hard deadline</li>
+              </ul>
+            </div>
+            <div class="cform__block">
+              <p class="cform__k">Status</p>
+              <p class="cform__live"><i></i>Open to work</p>
+              <p class="cform__small">Project work or ongoing maintenance. I will say if I am not the right fit.</p>
+            </div>
+          </aside>
+        </div>
 
       </div>
 
@@ -163,6 +167,7 @@
 </main>
 
 <script src="scroll.js"></script>
+<script src="web.js"></script>
 <script src="main.js"></script>
 <script src="contact.js"></script>
 </body>

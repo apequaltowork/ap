@@ -15,6 +15,44 @@
 (function () {
   "use strict";
 
+  /* ── the web in the right column ──────────────────────────── */
+
+  var webCv = document.querySelector("[data-web]");
+  // Needs hover to tear, so fine pointers only. On touch there is no cursor
+  // to cut with, and an untouched web is just a static drawing costing a
+  // frame budget — so it is not mounted at all.
+  if (webCv && window.WEB && !RIG.reduced && !RIG.coarse) {
+    var web = WEB.mount(webCv);
+    window.__web = web;   // handle for verification
+    var wbox = { left: 0, topDoc: 0 };
+
+    var wmeasure = function () {
+      var r = webCv.getBoundingClientRect();
+      wbox.left = r.left;
+      wbox.topDoc = r.top + window.scrollY;
+      web.resize();
+    };
+    wmeasure();
+    addEventListener("resize", wmeasure);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(wmeasure);
+
+    var wptr = { cx: -9999, cy: -9999, on: false };
+    addEventListener("pointermove", function (e) {
+      if (e.pointerType === "touch") return;
+      wptr.cx = e.clientX; wptr.cy = e.clientY; wptr.on = true;
+    }, { passive: true });
+    addEventListener("pointerleave", function () { wptr.on = false; web.leave(); });
+    addEventListener("blur", function () { wptr.on = false; web.leave(); });
+
+    RIG.frame(function (y) {
+      if (wptr.on) web.at(wptr.cx - wbox.left, wptr.cy - (wbox.topDoc - y));
+      else web.leave();
+      web.frame();
+    });
+  }
+
+  /* ── the form ─────────────────────────────────────────────── */
+
   var ENDPOINT = "";                       // e.g. "https://formspree.io/f/xxxxxxx"
   var TO = "apequaltowork@gmail.com";
 
