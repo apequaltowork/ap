@@ -147,17 +147,15 @@ window.LEADER = (function () {
     root = document.querySelector("[data-leader]");
     if (!root) { unlock(); api.done = true; return; }
 
-    var reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
-    var seen = false;
-    try { seen = sessionStorage.getItem("leader-seen") === "1"; } catch (e) {}
-
-    if (reduced || seen) {
+    // Plays on EVERY load, not once per session — the loader is part of the
+    // site, and a returning visitor should see it too. Reduced motion is the
+    // only opt-out, and that one is not negotiable.
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches) {
       root.parentNode.removeChild(root);
       unlock();
       api.done = true;
       return;
     }
-    try { sessionStorage.setItem("leader-seen", "1"); } catch (e) {}
 
     cv = root.querySelector("canvas");
     ctx = cv.getContext("2d");
@@ -181,9 +179,11 @@ window.LEADER = (function () {
     sizeCanvas();
     addEventListener("resize", sizeCanvas);
 
-    ["click", "keydown", "wheel", "touchstart"].forEach(function (ev) {
-      addEventListener(ev, skip, { once: true, passive: true });
-    });
+    // Deliberately no skip-on-interaction. It used to end on any click,
+    // key, wheel or touch — and a wheel fires the moment someone rests a
+    // finger on the trackpad, so the count was routinely cut off partway.
+    // It runs to 100 and finishes on its own. LEADER.skip() still exists
+    // for the console, and the failsafe above still covers a stalled loop.
 
     numEl.textContent = "000";
     raf = requestAnimationFrame(loop);

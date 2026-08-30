@@ -139,8 +139,7 @@ a { color: inherit; text-decoration: none; }
 .leader__cue.is-on { animation: leaderCue .25s steps(1) 2; }
 @keyframes leaderCue { 0% { opacity: 1; } 50% { opacity: 0; } }
 
-.leader__brand,
-.leader__skip {
+.leader__brand {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
@@ -150,8 +149,7 @@ a { color: inherit; text-decoration: none; }
   text-transform: uppercase;
   white-space: nowrap;
 }
-.leader__brand { bottom: 9vh; color: var(--bone-dim); }
-.leader__skip  { bottom: 5vh; color: var(--faint); }
+.leader__brand { bottom: 8vh; color: var(--bone-dim); }
 
 /* hold the page still underneath while the leader runs */
 html.is-leading { overflow: hidden; }
