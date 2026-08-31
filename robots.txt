@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://apequaltowork.github.io/ap/sitemap.xml

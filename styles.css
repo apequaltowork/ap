@@ -1501,3 +1501,252 @@ textarea.field__v {
   .ch { opacity: 1; transform: none; transition: none; }
   * { scroll-behavior: auto !important; }
 }
+
+/* ============================================================
+   PART 06 — the site becomes more than one page.
+
+   Nothing here is a new component. The footer gains links, the
+   404 borrows the leader's dial, and the colophon is built out
+   of .strip, .eyebrow, .lede and .end__actions with two layout
+   blocks of its own. No new colours, no new fonts.
+   ============================================================ */
+
+/* ── footer, now carrying the page index ───────────────────── */
+
+.foot__links {
+  display: inline-flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: .75rem 1.75rem;
+}
+.foot a {
+  color: var(--muted);
+  transition: color .4s var(--ease);
+}
+.foot a:hover { color: var(--amber); }
+
+/* ============================================================
+   404 — the count that never reaches zero
+   ============================================================ */
+
+.act--missing {
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-block: 6rem;
+}
+.missing {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  max-width: 52rem;
+}
+
+/* The leader's dial, held. The conic stop is the whole idea: the ring is
+   part-filled and stays that way, so the frame reads as stalled rather than
+   as loading. Deliberately static — an animated 404 asks you to wait for
+   something that is never going to arrive. */
+.missing__dial {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: clamp(9rem, 26vmin, 15rem);
+  aspect-ratio: 1;
+  margin-bottom: 2.5rem;
+  border-radius: 50%;
+  background:
+    conic-gradient(var(--amber) 0 40%, rgba(233, 229, 220, .10) 40% 100%);
+  -webkit-mask: radial-gradient(circle, transparent 0 calc(50% - 2px), #000 calc(50% - 2px));
+          mask: radial-gradient(circle, transparent 0 calc(50% - 2px), #000 calc(50% - 2px));
+}
+/* the inner ring and the crosshair, as scribed on a leader frame */
+.missing__dial::before {
+  content: "";
+  position: absolute;
+  inset: 14%;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  -webkit-mask: none;
+          mask: none;
+}
+.missing__n {
+  position: absolute;
+  font-family: var(--cond);
+  font-weight: 800;
+  font-size: clamp(3.5rem, 11vmin, 6rem);
+  line-height: 1;
+  letter-spacing: -.04em;
+  color: var(--bone);
+  font-variant-numeric: tabular-nums;
+}
+.missing__h {
+  font-family: var(--cond);
+  font-weight: 800;
+  font-size: clamp(3rem, 11vw, 8rem);
+  line-height: .92;
+  letter-spacing: -.03em;
+  margin: .75rem 0 1.5rem;
+}
+.missing .lede { margin-inline: auto; }
+.missing .foot { margin-top: 6rem; }
+
+/* ============================================================
+   COLOPHON — how the site is built
+   ============================================================ */
+
+.act--colo-top,
+.act--colo-cost,
+.act--colo-set {
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  padding-block: 7rem;
+}
+.colo {
+  width: 100%;
+  max-width: 68rem;
+  margin-inline: auto;
+}
+.colo__title {
+  font-family: var(--cond);
+  font-weight: 800;
+  font-size: clamp(3.5rem, 13vw, 10rem);
+  line-height: .88;
+  letter-spacing: -.035em;
+  margin: .5rem 0 2rem;
+}
+.colo__h {
+  font-family: var(--cond);
+  font-weight: 600;
+  font-size: clamp(2rem, 5.5vw, 3.75rem);
+  line-height: 1;
+  letter-spacing: -.02em;
+  margin-bottom: 3rem;
+}
+.colo .cform__back { margin-bottom: 2.5rem; }
+.colo .lede { max-width: 54ch; }
+
+/* ── the measured numbers ──────────────────────────────────── */
+
+.colo__stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(13.5rem, 1fr));
+  gap: 1px;
+  margin-top: 4rem;
+  background: var(--line);
+  border: 1px solid var(--line);
+}
+.colo__stats > div {
+  padding: 1.5rem 1.25rem;
+  background: var(--ink);
+}
+.colo__stats dt {
+  font-family: var(--mono);
+  font-size: .5625rem;
+  letter-spacing: .28em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.colo__stats dd {
+  margin: .6rem 0 .5rem;
+  font-family: var(--cond);
+  font-weight: 600;
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  line-height: 1;
+  letter-spacing: -.01em;
+  color: var(--bone);
+}
+.colo__stats p {
+  font-size: .875rem;
+  line-height: 1.5;
+  color: var(--bone-dim);
+}
+.colo__stats--set { margin-top: 3rem; margin-bottom: 3rem; }
+.colo__stats--set dd { font-size: clamp(1.25rem, 2.6vw, 1.75rem); }
+
+/* a colour chip sitting in the value, so the hex is shown not just named */
+.colo__sw {
+  display: inline-block;
+  width: .85em;
+  height: .85em;
+  margin-right: .5em;
+  vertical-align: -.02em;
+  background: var(--c);
+  border: 1px solid var(--line-2);
+  border-radius: 2px;
+}
+
+/* ── the live scrub ────────────────────────────────────────── */
+
+.colo__demo {
+  width: min(100%, 48rem);
+  text-align: center;
+}
+.colo__k {
+  font-family: var(--mono);
+  font-size: .6875rem;
+  letter-spacing: .18em;
+  color: var(--muted);
+}
+.colo__p {
+  margin: 1rem 0 1.75rem;
+  font-family: var(--mono);
+  font-weight: 500;
+  font-size: clamp(3.5rem, 14vw, 8rem);
+  line-height: 1;
+  color: var(--amber);
+  font-variant-numeric: tabular-nums;
+}
+.colo__bar {
+  height: 2px;
+  width: 100%;
+  background: var(--line);
+  overflow: hidden;
+}
+.colo__bar i {
+  display: block;
+  height: 100%;
+  width: 100%;
+  background: var(--amber);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+}
+.colo__note {
+  max-width: 52ch;
+  margin: 2rem auto 0;
+  font-size: clamp(.9375rem, 1.5vw, 1.0625rem);
+  line-height: 1.65;
+  color: var(--bone-dim);
+}
+
+/* ── the honest part ───────────────────────────────────────── */
+
+.colo__cols {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  gap: 2.5rem 3rem;
+}
+.colo__col p + p,
+.colo__col p:not(.colo__k) {
+  margin-top: .9rem;
+  font-size: clamp(.9375rem, 1.4vw, 1.0625rem);
+  line-height: 1.7;
+  color: var(--bone-dim);
+}
+.colo__col .colo__k { margin-top: 0; }
+
+.colo .end__actions {
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 1.5rem 2rem;
+}
+.colo .foot { margin-top: 6rem; }
+
+@media (max-width: 720px) {
+  .colo .end__actions { flex-direction: column; align-items: flex-start; }
+  .missing__dial { margin-bottom: 1.75rem; }
+}

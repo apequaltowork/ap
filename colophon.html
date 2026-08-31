@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Colophon — how this site is built</title>
+<meta name="description" content="How this portfolio is built: no framework, no animation library, a hand-written scroll rig, and static HTML served off GitHub Pages.">
+<!-- @chrome head -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@400;600;800&family=IBM+Plex+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,200;0,6..72,300;0,6..72,400;1,6..72,300&display=swap">
+<link rel="stylesheet" href="styles.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230B0D11'/%3E%3Ccircle cx='16' cy='16' r='7.5' fill='none' stroke='%23F0A02A' stroke-width='2.5'/%3E%3C/svg%3E">
+<!-- @end head -->
+</head>
+<body data-runtime="96">
+
+<!-- @chrome chrome -->
+<div class="grain" aria-hidden="true"></div>
+<div class="vignette" aria-hidden="true"></div>
+
+<!-- fixed film edge: sprocket holes that advance as the reel runs -->
+<div class="edge" aria-hidden="true">
+  <div class="edge__sprockets" data-sprockets></div>
+  <span class="edge__mark">ASHISH PITRODA · FULL-STACK DEVELOPER · 10+ YEARS</span>
+</div>
+
+<!-- index: acts on the home reel, pages everywhere else -->
+<nav class="reels" aria-label="Pages">
+  <ol class="reels__list">
+    <li><a class="reel" href="index.html"><span class="reel__n">01</span><span class="reel__name">Reel</span><i class="reel__tick"></i></a></li>
+    <li><a class="reel" href="contact.html"><span class="reel__n">07</span><span class="reel__name">Contact</span><i class="reel__tick"></i></a></li>
+    <li><a class="reel is-active" href="colophon.html"><span class="reel__n">08</span><span class="reel__name">Colophon</span><i class="reel__tick"></i></a></li>
+  </ol>
+  <p class="reels__tc"><span data-timecode>00:00:00:00</span></p>
+</nav>
+
+<!-- playhead -->
+<div class="playhead" aria-hidden="true"><span class="playhead__bar" data-playhead></span></div>
+<!-- @end chrome -->
+
+<main class="stage">
+
+  <!-- ─────────── K1 · INTRO ─────────── -->
+  <section class="act act--colo-top" id="k1">
+    <div class="colo">
+      <a class="cform__back" href="index.html">
+        <svg viewBox="0 0 20 12" aria-hidden="true"><path d="M19 6H1M6 1 1 6l5 5"/></svg>
+        <span>Back to the reel</span>
+      </a>
+      <p class="eyebrow" data-rise>Colophon <i>·</i> how this site is made</p>
+      <h1 class="colo__title" data-chars>Built by hand</h1>
+      <p class="lede" data-rise style="--d:.5s">
+        Every portfolio claims its owner writes good code. This page is the part
+        you can check. The site you are reading has no framework, no animation
+        library and nothing to install — the scroll, the pinning, the wipes and
+        the spider on the contact page are all written here, in files you can
+        open. What follows is how, and what it cost.
+      </p>
+
+      <!-- Measured by build-pages.js on every run, not typed in. A number in a
+           colophon that drifts out of date is worse than no number. -->
+      <!-- @chrome stats -->
+      <dl class="colo__stats">
+        <div>
+          <dt>Dependencies</dt>
+          <dd>0</dd>
+          <p>no framework, no GSAP, no Lenis, nothing to install</p>
+        </div>
+        <div>
+          <dt>JavaScript</dt>
+          <dd>57.6 KB</dd>
+          <p>6 hand-written modules, unminified</p>
+        </div>
+        <div>
+          <dt>CSS</dt>
+          <dd>49.2 KB</dd>
+          <p>one stylesheet, no preprocessor</p>
+        </div>
+        <div>
+          <dt>Pages</dt>
+          <dd>3</dd>
+          <p>static HTML, served straight off GitHub Pages</p>
+        </div>
+        <div>
+          <dt>Build step</dt>
+          <dd>optional</dd>
+          <p>the site runs from source; the build only syncs chrome</p>
+        </div>
+      </dl>
+      <!-- @end stats -->
+    </div>
+  </section>
+
+  <!-- ─────────── K2 · THE RIG ─────────── -->
+  <section class="act act--pin act--colo-demo" id="k2" style="--len:2">
+    <div class="pin">
+      <span class="act__tag">The rig</span>
+      <div class="colo__demo" data-colo>
+        <p class="colo__k">RIG.track(section, fn)</p>
+        <p class="colo__p"><span data-colo-p>0.000</span></p>
+        <div class="colo__bar" aria-hidden="true"><i data-colo-bar></i></div>
+        <p class="colo__note">
+          That number is the only input any effect on this site receives: how far
+          the reel has run through the section you are in, from 0 to 1. The words
+          lighting up one by one, the project plates wiping across, the process
+          steps cross-fading — each is a small function of this, and nothing
+          else. No timeline, no keyframes, no library holding state.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────── K3 · THE PARTS ─────────── -->
+  <section class="act act--pin act--cut" id="k3" style="--len:5">
+    <div class="pin">
+      <span class="act__tag">The parts</span>
+      <div class="strip" data-strip>
+        <div class="strip__perf" aria-hidden="true"></div>
+        <div class="strip__track" data-strip-track>
+
+          <article class="frame" style="--a:#F0A02A;--b:#7A3B12">
+            <div class="frame__plate"><span class="frame__n">01</span></div>
+            <h3 class="frame__h">The scroll</h3>
+            <p class="frame__meta">scroll.js · 10 KB</p>
+            <p class="frame__note">The wheel is intercepted and the page eased toward a target rather than jumped to it. Sections are pinned with CSS <em>sticky</em> — the engine never writes layout, only reads it.</p>
+          </article>
+
+          <article class="frame" style="--a:#6FA8D8;--b:#1B3550">
+            <div class="frame__plate"><span class="frame__n">02</span></div>
+            <h3 class="frame__h">The choreography</h3>
+            <p class="frame__meta">main.js · one pass per frame</p>
+            <p class="frame__note">Every act is a guard-claused block: if its markup is absent the block does nothing. That is why the same file drives every page on this site without a single condition about which page it is on.</p>
+          </article>
+
+          <article class="frame" style="--a:#D8674A;--b:#40160E">
+            <div class="frame__plate"><span class="frame__n">03</span></div>
+            <h3 class="frame__h">The hero</h3>
+            <p class="frame__meta">reveal.js · canvas</p>
+            <p class="frame__note">The portrait is two layers — a latent ghost and a developed print — and the pointer wipes the second up over the first, decaying behind you like a print coming up in a tray.</p>
+          </article>
+
+          <article class="frame" style="--a:#9FB88A;--b:#233020">
+            <div class="frame__plate"><span class="frame__n">04</span></div>
+            <h3 class="frame__h">The web</h3>
+            <p class="frame__meta">web.js · 775 strands</p>
+            <p class="frame__note">The contact page carries an orb web that ripples where your cursor passes, and a spider that hunts the vibration. All 775 strands are stroked as one path, which took the frame cost from 0.85ms to 0.17ms.</p>
+          </article>
+
+          <article class="frame" style="--a:#B98BD0;--b:#2E1B3C">
+            <div class="frame__plate"><span class="frame__n">05</span></div>
+            <h3 class="frame__h">The leader</h3>
+            <p class="frame__meta">leader.js · 10 → 0</p>
+            <p class="frame__note">The countdown always takes its full run, even from a warm cache, and never shows zero until the page has genuinely finished loading. So zero always means ready — it is a real signal, not a decorative delay.</p>
+          </article>
+
+          <article class="frame" style="--a:#8FBDB0;--b:#1C3330">
+            <div class="frame__plate"><span class="frame__n">06</span></div>
+            <h3 class="frame__h">The chrome</h3>
+            <p class="frame__meta">build-pages.js</p>
+            <p class="frame__note">The film edge, reel index, playhead and footer are written into every page from one source. Pages stay plain files you can open from disk — the build syncs them, it is not needed to serve them.</p>
+          </article>
+
+        </div>
+      </div>
+      <p class="strip__hint"><span data-strip-count>01</span><i>/</i>06<em>scroll to advance the strip</em></p>
+    </div>
+  </section>
+
+  <!-- ─────────── K4 · WHAT IT COST ─────────── -->
+  <section class="act act--colo-cost" id="k4">
+    <div class="colo">
+      <span class="act__tag act__tag--flow">What it cost</span>
+      <h2 class="colo__h" data-rise>The honest part</h2>
+
+      <div class="colo__cols">
+        <div class="colo__col" data-rise>
+          <p class="colo__k">What this buys</p>
+          <p>Nothing to update and nothing to audit. No build to run before the site will load. A page weight measured in kilobytes, and behaviour I can explain line by line — including to whoever maintains it after me.</p>
+        </div>
+        <div class="colo__col" data-rise style="--d:.1s">
+          <p class="colo__k">What it costs</p>
+          <p>Time. A scroll engine is a solved problem and I solved it again. On a client project I would reach for the library, because their budget should buy their features, not my scroll behaviour. This site is where the exception is worth it.</p>
+        </div>
+        <div class="colo__col" data-rise style="--d:.2s">
+          <p class="colo__k">Where it gives way</p>
+          <p>Reduced-motion turns the whole choreography off and leaves a plain document, which is the correct answer. Pointer effects need a fine pointer, so touch gets the static layer. Without JavaScript the content still reads; the motion simply is not there.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────── K5 · SET ─────────── -->
+  <section class="act act--colo-set" id="k5">
+    <div class="colo">
+      <span class="act__tag act__tag--flow">Set in</span>
+      <h2 class="colo__h" data-rise>Type and light</h2>
+
+      <dl class="colo__stats colo__stats--set" data-rise>
+        <div>
+          <dt>Display</dt>
+          <dd style="font-family:var(--cond)">Big Shoulders</dd>
+          <p>Condensed, the way a title card is lettered.</p>
+        </div>
+        <div>
+          <dt>Text</dt>
+          <dd style="font-family:var(--serif)">Newsreader</dd>
+          <p>A reading face, set light — this is a document first.</p>
+        </div>
+        <div>
+          <dt>Data</dt>
+          <dd style="font-family:var(--mono)">IBM Plex Mono</dd>
+          <p>Every number, label and timecode on the site.</p>
+        </div>
+        <div>
+          <dt>Ground</dt>
+          <dd><i class="colo__sw" style="--c:#0B0D11"></i>#0B0D11</dd>
+          <p>Blue-black, never neutral grey. Nothing here is pure black.</p>
+        </div>
+        <div>
+          <dt>Key</dt>
+          <dd><i class="colo__sw" style="--c:#F0A02A"></i>#F0A02A</dd>
+          <p>Tungsten at 3200K against a 5600K ground. The only accent.</p>
+        </div>
+        <div>
+          <dt>Fill</dt>
+          <dd><i class="colo__sw" style="--c:#6FA8D8"></i>#6FA8D8</dd>
+          <p>Daylight, used sparingly and never next to the key.</p>
+        </div>
+      </dl>
+
+      <div class="end__actions" data-rise style="--d:.2s">
+        <a class="mail" href="https://github.com/apequaltowork/ap" target="_blank" rel="noopener">
+          <span>Read the source</span>
+          <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 16 16 4M7 4h9v9"/></svg>
+        </a>
+        <a class="end__alt" href="contact.html">or send a brief</a>
+      </div>
+
+      <!-- @chrome foot -->
+      <footer class="foot">
+        <span>&copy; 2026 Ashish Pitroda</span>
+        <span class="foot__links"><a href="index.html">Reel</a><a href="contact.html">Contact</a></span>
+        <span>Open to work</span>
+      </footer>
+      <!-- @end foot -->
+    </div>
+  </section>
+
+</main>
+
+<script src="scroll.js"></script>
+<script src="main.js"></script>
+</body>
+</html>

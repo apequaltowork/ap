@@ -238,12 +238,31 @@
     });
   }
 
+  /* ── colophon: the scrub, shown as itself ──────────────────── */
+
+  // The colophon claims every effect on the site is a function of one number.
+  // This prints that number while you scroll, so the claim is checkable rather
+  // than merely asserted — it is the same RIG.track call as every act above.
+  var colo = $("[data-colo]");
+  if (colo) {
+    var coloP = $("[data-colo-p]", colo);
+    var coloBar = $("[data-colo-bar]", colo);
+    RIG.track(colo.closest(".act"), function (p) {
+      if (coloP) coloP.textContent = p.toFixed(3);
+      if (coloBar) coloBar.style.transform = "scaleX(" + p.toFixed(4) + ")";
+    });
+  }
+
   /* ── fixed chrome: sprockets, playhead, timecode ───────────── */
 
   var sprockets = $("[data-sprockets]");
   var playhead = $("[data-playhead]");
   var timecode = $("[data-timecode]");
-  var RUNTIME = 252;   // 00:04:12 — the figure printed on the slate
+  // Seconds of "runtime" the timecode counts across the whole page. The home
+  // reel is 00:04:12, the figure printed on its own slate; a short inner page
+  // reaching 00:04:12 in two screens of scroll would be a lie the reader can
+  // check. Each page states its own on <body data-runtime>.
+  var RUNTIME = +(document.body.getAttribute("data-runtime") || 252);
   var FPS = 24;
 
   RIG.frame(function (y, gp) {

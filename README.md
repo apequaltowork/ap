@@ -37,20 +37,52 @@ node build-single.js
 ## Layout
 
 ```
-index.html          markup + all copy
+index.html          the home reel — seven acts
+contact.html        the brief, plus the spider web
+colophon.html       how the site is built, with its numbers measured at build time
+404.html            served by GitHub Pages; the count that never reaches zero
 styles.css          the visual identity
 scroll.js           the engine — smooth scroll + scroll triggers + text splitting
 main.js             the choreography — what each act does with its progress value
-build-single.js     inlines the three (and the photo) into dist/
+reveal.js           the pointer-driven develop effect (home only)
+web.js              the orb web and the spider (contact only)
+contact.js          the form, and the web's pointer wiring
+partials/           the chrome every page shares: head, fixed layers, footer
+build-pages.js      writes partials/ into every page, and emits sitemap + robots
+build-single.js     inlines the home reel (and the photo) into dist/
 assets/
   portrait-source.png  the original photograph — the source of truth
   hero.webp            generated: the same photo with baked alpha
 tools/
   make-hero.py         bakes hero.webp, and previews the hero offline
+  make-shots.py        normalises project screenshots
   drop.py              a paste/drag box for getting an image onto disk
-reveal.js           the pointer-driven develop effect
-v1/ v2/ v3/         version snapshots, untouched
+v1/ … v5/           version snapshots, untouched
 ```
+
+### Adding a page
+
+1. Copy `404.html` as a starting point — it is the smallest page that still
+   carries the full chrome.
+2. Give it the three markers it needs. They are inert on their own; the build
+   fills them:
+
+   ```html
+   <!-- @chrome head --><!-- @end head -->      inside <head>
+   <!-- @chrome chrome --><!-- @end chrome -->  first thing in <body>
+   <!-- @chrome foot --><!-- @end foot -->      wherever the footer belongs
+   ```
+
+3. Add it to `PAGES` in `build-pages.js`. `live: true` puts it in the reel
+   index and the sitemap; `live: false` builds it but lists it nowhere, which
+   is how an unfinished page stays off the site while still being editable.
+4. Set `<body data-runtime="N">` — seconds of runtime the timecode counts
+   across that page. The home reel is 252 because its own slate says 00:04:12.
+5. Run `node build-pages.js`. Running it twice is a no-op; `--check` exits 1
+   if any page has drifted, which is what CI would run.
+
+Pages in subdirectories work without any thought: the build prefixes `../` to
+every relative link it writes, per directory depth.
 
 ---
 

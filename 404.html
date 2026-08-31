@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Frame missing — Ashish Pitroda</title>
+<meta name="description" content="That page is not on this reel.">
+<meta name="robots" content="noindex">
+<!-- @chrome head -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@400;600;800&family=IBM+Plex+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,200;0,6..72,300;0,6..72,400;1,6..72,300&display=swap">
+<link rel="stylesheet" href="styles.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230B0D11'/%3E%3Ccircle cx='16' cy='16' r='7.5' fill='none' stroke='%23F0A02A' stroke-width='2.5'/%3E%3C/svg%3E">
+<!-- @end head -->
+</head>
+<body data-runtime="12">
+
+<!-- @chrome chrome -->
+<div class="grain" aria-hidden="true"></div>
+<div class="vignette" aria-hidden="true"></div>
+
+<!-- fixed film edge: sprocket holes that advance as the reel runs -->
+<div class="edge" aria-hidden="true">
+  <div class="edge__sprockets" data-sprockets></div>
+  <span class="edge__mark">ASHISH PITRODA · FULL-STACK DEVELOPER · 10+ YEARS</span>
+</div>
+
+<!-- index: acts on the home reel, pages everywhere else -->
+<nav class="reels" aria-label="Pages">
+  <ol class="reels__list">
+    <li><a class="reel" href="index.html"><span class="reel__n">01</span><span class="reel__name">Reel</span><i class="reel__tick"></i></a></li>
+    <li><a class="reel" href="contact.html"><span class="reel__n">07</span><span class="reel__name">Contact</span><i class="reel__tick"></i></a></li>
+    <li><a class="reel" href="colophon.html"><span class="reel__n">08</span><span class="reel__name">Colophon</span><i class="reel__tick"></i></a></li>
+  </ol>
+  <p class="reels__tc"><span data-timecode>00:00:00:00</span></p>
+</nav>
+
+<!-- playhead -->
+<div class="playhead" aria-hidden="true"><span class="playhead__bar" data-playhead></span></div>
+<!-- @end chrome -->
+
+<main class="stage">
+  <section class="act act--missing" id="m1">
+    <div class="missing">
+
+      <!-- The leader's dial, stopped. On the home page the count runs 10 → 0
+           and the reel starts; here it never gets there, which is the whole
+           point — so it is drawn in CSS and holds, rather than being animated
+           by leader.js. A 404 that covers the page in a black overlay while a
+           counter ticks would be hostile; this one is just a still frame. -->
+      <div class="missing__dial" aria-hidden="true">
+        <span class="missing__n">04</span>
+      </div>
+
+      <p class="eyebrow" data-rise>404 <i>·</i> the count stopped here</p>
+      <h1 class="missing__h" data-chars>Frame missing</h1>
+      <p class="lede lede--center" data-rise style="--d:.5s">
+        Whatever was at this address is not on the reel — either it was never
+        spliced in, or the link has aged badly. Nothing is broken on your end.
+      </p>
+
+      <div class="end__actions" data-rise style="--d:.62s">
+        <a class="mail" href="index.html">
+          <span>Back to the reel</span>
+          <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 16 16 4M7 4h9v9"/></svg>
+        </a>
+        <a class="end__alt" href="contact.html">or send a brief</a>
+      </div>
+
+      <!-- @chrome foot -->
+      <footer class="foot">
+        <span>&copy; 2026 Ashish Pitroda</span>
+        <span class="foot__links"><a href="index.html">Reel</a><a href="contact.html">Contact</a><a href="colophon.html">Colophon</a></span>
+        <span>Open to work</span>
+      </footer>
+      <!-- @end foot -->
+    </div>
+  </section>
+</main>
+
+<script src="scroll.js"></script>
+<script src="main.js"></script>
+</body>
+</html>
