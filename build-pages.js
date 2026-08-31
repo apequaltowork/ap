@@ -29,19 +29,37 @@ const read = (f) => fs.readFileSync(path.join(here, f), "utf8");
 const exists = (f) => fs.existsSync(path.join(here, f));
 
 /* ── the site, as data ─────────────────────────────────────────
-   `live` is what gates the reel index and the sitemap. A page that exists on
-   disk but is not finished — or is deliberately unlisted, like the case study
-   demo — stays false and simply does not appear. Parts 07-09 flip flags. */
+   Three states, because a page has two separate questions to answer — does it
+   belong in the reel index, and does it belong in the sitemap:
+
+     live: true    chrome + reel index + sitemap
+     child: true   chrome + sitemap, but not in the reel index. The six service
+                   pages: they exist to be found by search and reached from
+                   their hub, and putting all six in a nav of eight items would
+                   drown everything else.
+     neither       chrome only. A page that is built but not finished, or
+                   deliberately unlisted like the case study demo.
+
+   Parts 09 flips the remaining flags. */
 
 const PAGES = [
   { file: "index.html",          n: "01", name: "Reel",     nav: "acts", live: true },
   { file: "work/index.html",     n: "02", name: "Work",     live: false },
-  { file: "services/index.html", n: "03", name: "Services", live: false },
+  { file: "services/index.html", n: "03", name: "Services", live: true },
   { file: "about.html",          n: "04", name: "About",    live: false },
   { file: "proof.html",          n: "05", name: "Proof",    live: false },
   { file: "writing/index.html",  n: "06", name: "Writing",  live: false },
   { file: "contact.html",        n: "07", name: "Contact",  live: true },
   { file: "colophon.html",       n: "08", name: "Colophon", live: true },
+
+  // the six services, reached from their hub and from search
+  { file: "services/wagtail-cms.html",       name: "Wagtail CMS",   child: true },
+  { file: "services/django.html",            name: "Django",        child: true },
+  { file: "services/frontend-vue-next.html", name: "Frontend",      child: true },
+  { file: "services/api-integrations.html",  name: "Integrations",  child: true },
+  { file: "services/aws-performance.html",   name: "AWS and speed", child: true },
+  { file: "services/project-takeover.html",  name: "Takeover",      child: true },
+
   // 404 carries the chrome but is never indexed and never listed
   { file: "404.html",            n: "--", name: "Missing",  live: false, noindex: true },
   // The case study template, holding example content. It is built and kept in
@@ -175,8 +193,11 @@ for (const page of PAGES) {
 /* sitemap + robots — part 08 exists specifically to be found */
 if (!CHECK) {
   const today = new Date().toISOString().slice(0, 10);
-  const urls = PAGES.filter((p) => p.live && !p.noindex).map((p) => {
-    const loc = SITE + "/" + (p.file === "index.html" ? "" : p.file);
+  const urls = PAGES.filter((p) => (p.live || p.child) && !p.noindex).map((p) => {
+    // A directory index is advertised as the directory, matching the <link
+    // rel=canonical> on the page itself. Listing both spellings of one page is
+    // how a sitemap creates the duplicate content it was meant to prevent.
+    const loc = SITE + "/" + p.file.replace(/(^|\/)index\.html$/, "$1");
     return ["  <url>", "    <loc>" + loc + "</loc>",
       "    <lastmod>" + today + "</lastmod>", "  </url>"].join("\n");
   });
