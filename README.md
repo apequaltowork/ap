@@ -38,9 +38,19 @@ node build-single.js
 
 ```
 index.html          the home reel — seven acts
+about.html          who, how, what I know by depth, and what I am not for
 contact.html        the brief, plus the spider web
 colophon.html       how the site is built, with its numbers measured at build time
+proof.html          HELD — built, but holds no reviews yet. Unlisted.
 404.html            served by GitHub Pages; the count that never reaches zero
+services/
+  index.html          the hub
+  wagtail-cms.html    …and five siblings. The site's search surface.
+work/
+  01-example.html   HELD — the case study template, carrying example content
+writing/
+  index.html        HELD — empty archive; goes live with the first post
+  _template.html    copy this to a slug to write one
 styles.css          the visual identity
 scroll.js           the engine — smooth scroll + scroll triggers + text splitting
 main.js             the choreography — what each act does with its progress value
