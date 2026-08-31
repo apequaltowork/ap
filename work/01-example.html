@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Example case study — layout only</title>
+<meta name="description" content="A layout demonstration for the case study template. Not a client reference.">
+<meta name="robots" content="noindex">
+<!-- @chrome head -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@400;600;800&family=IBM+Plex+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,200;0,6..72,300;0,6..72,400;1,6..72,300&display=swap">
+<link rel="stylesheet" href="../styles.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230B0D11'/%3E%3Ccircle cx='16' cy='16' r='7.5' fill='none' stroke='%23F0A02A' stroke-width='2.5'/%3E%3C/svg%3E">
+<!-- @end head -->
+</head>
+<body data-runtime="180">
+
+<!-- @chrome chrome -->
+<div class="grain" aria-hidden="true"></div>
+<div class="vignette" aria-hidden="true"></div>
+
+<!-- fixed film edge: sprocket holes that advance as the reel runs -->
+<div class="edge" aria-hidden="true">
+  <div class="edge__sprockets" data-sprockets></div>
+  <span class="edge__mark">ASHISH PITRODA · FULL-STACK DEVELOPER · 10+ YEARS</span>
+</div>
+
+<!-- index: acts on the home reel, pages everywhere else -->
+<nav class="reels" aria-label="Pages">
+  <ol class="reels__list">
+    <li><a class="reel" href="../index.html"><span class="reel__n">01</span><span class="reel__name">Reel</span><i class="reel__tick"></i></a></li>
+    <li><a class="reel" href="../contact.html"><span class="reel__n">07</span><span class="reel__name">Contact</span><i class="reel__tick"></i></a></li>
+    <li><a class="reel" href="../colophon.html"><span class="reel__n">08</span><span class="reel__name">Colophon</span><i class="reel__tick"></i></a></li>
+  </ol>
+  <p class="reels__tc"><span data-timecode>00:00:00:00</span></p>
+</nav>
+
+<!-- playhead -->
+<div class="playhead" aria-hidden="true"><span class="playhead__bar" data-playhead></span></div>
+<!-- @end chrome -->
+
+<!-- This band is not decoration and must not be removed while the page holds
+     example content. It is the difference between showing a layout and
+     claiming a client. -->
+<p class="cs-flag" role="note">
+  <b>Example layout.</b> This page exists to show the case study template.
+  Nothing on it is a client reference, and every figure is illustrative.
+</p>
+
+<main class="stage">
+
+  <!-- ─────────── W1 · THE SLATE ─────────── -->
+  <section class="act act--cs-top" id="w1">
+    <div class="cs">
+      <a class="cform__back" href="../index.html#r4">
+        <svg viewBox="0 0 20 12" aria-hidden="true"><path d="M19 6H1M6 1 1 6l5 5"/></svg>
+        <span>Back to the work</span>
+      </a>
+
+      <p class="eyebrow" data-rise>Case study <i>·</i> Wagtail CMS <i>·</i> Example</p>
+      <h1 class="cs__title" data-chars>An overdue upgrade</h1>
+      <p class="lede" data-rise style="--d:.5s">
+        A four-year-old Wagtail site that could no longer take a security patch,
+        brought up to the current release without taking the site down and
+        without freezing editorial work while it happened.
+      </p>
+
+      <!-- Same slate as the home page. Filling this in honestly is most of the
+           work of a case study: a reader scans it before reading a word. -->
+      <dl class="slatecard" data-rise style="--d:.62s">
+        <div><dt>Client</dt><dd>Example project</dd></div>
+        <div><dt>Sector</dt><dd>Membership publishing</dd></div>
+        <div><dt>Role</dt><dd>Sole developer</dd></div>
+        <div><dt>Year</dt><dd>20XX</dd></div>
+        <div><dt>Stack</dt><dd>Wagtail · Django · PostgreSQL</dd></div>
+        <div><dt>Engagement</dt><dd>Fixed scope, 7 weeks</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- ─────────── W2 · THE PROBLEM ─────────── -->
+  <section class="act act--pin act--thesis" id="w2" style="--len:3">
+    <div class="pin">
+      <span class="act__tag">The problem</span>
+      <div class="thesis" data-thesis>
+        <p class="thesis__line">Four years behind the release.</p>
+        <p class="thesis__line">Nothing could be patched.</p>
+        <p class="thesis__line">Everything still had to ship.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────── W3 · THE BUILD ───────────
+       The text column flows; the visual column sticks. Progress across the
+       whole section decides which plate is showing, so the image reads as
+       continuous while the notes read as a sequence. Same cross-fade window
+       as the Process act on the home reel. -->
+  <section class="act act--cs-build" id="w3">
+    <div class="cs__build" data-cs>
+
+      <div class="cs__notes">
+        <article class="cs__note" data-cs-note>
+          <p class="cs__k">01 — What was there</p>
+          <h2 class="cs__h">A site nobody could safely touch</h2>
+          <p>Wagtail 2.x on a Python the platform had stopped shipping. Eleven
+            packages pinned to versions with no upgrade path, a template layer
+            that had been forked rather than extended, and a test suite that
+            had been red long enough that nobody read it any more.</p>
+          <p>The practical consequence was not aesthetic. Every security
+            advisory arrived with no way to act on it, and every new feature
+            request was quoted at three times what it should have cost because
+            the ground moved when anyone stood on it.</p>
+        </article>
+
+        <article class="cs__note" data-cs-note>
+          <p class="cs__k">02 — Where it started</p>
+          <h2 class="cs__h">Read before writing</h2>
+          <p>The first two weeks produced no visible change. I mapped which
+            page models were actually in use, which templates were reachable,
+            and which of those eleven pins were load-bearing rather than
+            historical. Four of them turned out to be unused imports.</p>
+          <p>That map is the deliverable people forget to ask for. It decided
+            the order of everything that followed, and it is the reason the
+            upgrade could be quoted at a fixed price instead of hourly.</p>
+        </article>
+
+        <article class="cs__note" data-cs-note>
+          <p class="cs__k">03 — The upgrade</p>
+          <h2 class="cs__h">One version at a time, in public</h2>
+          <p>Wagtail's own upgrade path is version by version for a reason, and
+            skipping releases to save time is how a two-week job becomes a
+            two-month one. Each step got its own branch, its own deploy to a
+            staging copy with production data, and its own sign-off.</p>
+          <p>Editorial work never stopped. The team kept publishing on the live
+            site throughout, and each staging round was rebuilt from a fresh
+            database copy rather than asking anyone to pause.</p>
+        </article>
+
+        <article class="cs__note" data-cs-note>
+          <p class="cs__k">04 — What was left behind</p>
+          <h2 class="cs__h">Documented, so I am replaceable</h2>
+          <p>The forked templates went back to extending the parent. The test
+            suite runs green and runs in CI. The upgrade notes live in the
+            repository, not in my head, with the reasoning for each decision
+            that was not obvious.</p>
+          <p>The measure of this kind of work is whether the next person needs
+            me. They should not. That is what makes it worth paying for.</p>
+        </article>
+      </div>
+
+      <div class="cs__stage">
+        <div class="cs__frame">
+          <!-- Screenshots drop in here as
+                 <img class="cs__img" src="../assets/work/01-a.webp" alt="">
+               inside each plate (see tools/make-shots.py). Until then each
+               plate falls back to the typographic card below, so a project
+               with no usable screenshot still reads as deliberate rather
+               than broken. -->
+          <div class="cs__plate" data-cs-shot style="--a:#F0A02A;--b:#7A3B12">
+            <span class="cs__plate-n">01</span>
+            <span class="cs__plate-h">The audit</span>
+          </div>
+          <div class="cs__plate" data-cs-shot style="--a:#6FA8D8;--b:#1B3550">
+            <span class="cs__plate-n">02</span>
+            <span class="cs__plate-h">The map</span>
+          </div>
+          <div class="cs__plate" data-cs-shot style="--a:#9FB88A;--b:#233020">
+            <span class="cs__plate-n">03</span>
+            <span class="cs__plate-h">The upgrade</span>
+          </div>
+          <div class="cs__plate" data-cs-shot style="--a:#B98BD0;--b:#2E1B3C">
+            <span class="cs__plate-n">04</span>
+            <span class="cs__plate-h">The handover</span>
+          </div>
+          <div class="strip__perf" aria-hidden="true"></div>
+          <span class="cs__count"><b data-cs-count>01</b><i>/ 04</i></span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ─────────── W4 · THE RESULT ─────────── -->
+  <section class="act act--cs-result" id="w4">
+    <div class="cs">
+      <span class="act__tag act__tag--flow">The result</span>
+      <h2 class="cs__h2" data-rise>What changed</h2>
+
+      <dl class="cs__figures" data-rise>
+        <div>
+          <dt>Wagtail version</dt>
+          <dd>2.11 <i>→</i> 6.x</dd>
+          <p>Back on a supported release, and patchable the same week an advisory lands.</p>
+        </div>
+        <div>
+          <dt>Editorial downtime</dt>
+          <dd>None</dd>
+          <p>The team published throughout. No content freeze was ever requested.</p>
+        </div>
+        <div>
+          <dt>Test suite</dt>
+          <dd>Green</dd>
+          <p>Running in CI on every push, after four years of being ignored.</p>
+        </div>
+      </dl>
+
+      <p class="cs__caveat">
+        Figures on this page are illustrative. Real case studies carry the
+        client's own numbers, and only numbers the client has agreed to publish.
+      </p>
+
+      <div class="end__actions" data-rise style="--d:.2s">
+        <a class="mail" href="../contact.html">
+          <span>Start a project</span>
+          <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 16 16 4M7 4h9v9"/></svg>
+        </a>
+        <a class="end__alt" href="../index.html#r4">or see the rest of the work</a>
+      </div>
+
+      <!-- @chrome foot -->
+      <footer class="foot">
+        <span>&copy; 2026 Ashish Pitroda</span>
+        <span class="foot__links"><a href="../index.html">Reel</a><a href="../contact.html">Contact</a><a href="../colophon.html">Colophon</a></span>
+        <span>Open to work</span>
+      </footer>
+      <!-- @end foot -->
+    </div>
+  </section>
+
+</main>
+
+<script src="../scroll.js"></script>
+<script src="../main.js"></script>
+</body>
+</html>

@@ -160,7 +160,20 @@
        actual work before this page goes public, and add a screenshot to
        each plate as <img class="works__img" src="assets/work/NN.webp" alt="">
        (see tools/make-shots.py). Nothing here may be presented as a client
-       reference until it is true. -->
+       reference until it is true.
+
+       This act is meant to be a hub: each panel links out to its own case
+       study. The template and its mechanics are built and verified — see
+       work/01-example.html — but the links are NOT wired, because a public
+       "read the case study" on a placeholder would send a visitor to a page
+       banded as an example. Wiring it is one line per project, added last
+       inside each <article class="proj">:
+
+         <a class="proj__more" href="work/01-slug.html">Read the case study</a>
+
+       Then register the page in build-pages.js with live: true so it joins
+       the reel index and the sitemap. -->
+
   <section class="act act--works" id="r4" data-reel="04">
     <div class="works" data-works style="--n:6">
       <div class="works__stage">

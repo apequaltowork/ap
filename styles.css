@@ -1750,3 +1750,271 @@ textarea.field__v {
   .colo .end__actions { flex-direction: column; align-items: flex-start; }
   .missing__dial { margin-bottom: 1.75rem; }
 }
+
+/* ============================================================
+   PART 07 — the case study page.
+
+   Two columns: notes that flow, and a plate that sticks. The
+   act is NOT .act--pin — the sticky element is a column, not
+   the whole section, so its height comes from the notes.
+   ============================================================ */
+
+/* The band that says this page is a template, not a client reference. Loud
+   on purpose: it is the only thing separating a demonstration from a claim. */
+.cs-flag {
+  position: relative;
+  z-index: 2;
+  margin: 0 auto;
+  padding: .85rem clamp(1.5rem, 5vw, 5rem);
+  width: 100%;
+  font-family: var(--mono);
+  font-size: .6875rem;
+  line-height: 1.6;
+  letter-spacing: .06em;
+  color: var(--amber);
+  background: rgba(240, 160, 42, .08);
+  border-bottom: 1px solid var(--amber-soft);
+}
+.cs-flag b { font-weight: 500; color: var(--amber-hot); }
+
+.act--cs-top,
+.act--cs-result {
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  padding-block: 7rem;
+}
+.cs {
+  width: 100%;
+  max-width: 68rem;
+  margin-inline: auto;
+}
+.cs .cform__back { margin-bottom: 2.5rem; }
+.cs .lede { max-width: 54ch; }
+.cs .slatecard { margin-top: 3rem; }
+
+.cs__title {
+  font-family: var(--cond);
+  font-weight: 800;
+  font-size: clamp(3rem, 11vw, 8.5rem);
+  line-height: .88;
+  letter-spacing: -.035em;
+  margin: .5rem 0 2rem;
+}
+.cs__h2 {
+  font-family: var(--cond);
+  font-weight: 600;
+  font-size: clamp(2rem, 5.5vw, 3.75rem);
+  line-height: 1;
+  letter-spacing: -.02em;
+  margin-bottom: 3rem;
+}
+
+/* ── the build: notes flow, plate sticks ───────────────────── */
+
+.cs__build {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+  gap: clamp(2rem, 5vw, 5rem);
+  max-width: 84rem;
+  margin-inline: auto;
+}
+.cs__notes { padding-block: 12svh; }
+
+/* One note is roughly a screen, so a plate and its note change together
+   rather than the reader arriving at new text under an old image. */
+.cs__note {
+  min-height: 78svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 42ch;
+}
+.cs__note + .cs__note { margin-top: 6svh; }
+.cs__k {
+  font-family: var(--mono);
+  font-size: .625rem;
+  letter-spacing: .28em;
+  text-transform: uppercase;
+  color: var(--amber);
+}
+.cs__h {
+  margin: 1rem 0 1.25rem;
+  font-family: var(--cond);
+  font-weight: 600;
+  font-size: clamp(1.75rem, 3.6vw, 2.75rem);
+  line-height: 1.02;
+  letter-spacing: -.015em;
+}
+.cs__note p:not(.cs__k) {
+  font-size: clamp(.9375rem, 1.4vw, 1.0625rem);
+  line-height: 1.72;
+  color: var(--bone-dim);
+}
+.cs__note p + p { margin-top: 1rem; }
+
+.cs__stage {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  display: flex;
+  align-items: center;
+}
+.cs__frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: var(--ink-2);
+  border: 1px solid var(--line);
+}
+
+/* Every plate is stacked in the same box; opacity is written per frame. */
+.cs__plate {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-end;
+  gap: .5rem;
+  padding: clamp(1.5rem, 4vw, 3rem);
+  opacity: 0;
+  background:
+    linear-gradient(150deg, var(--a) 0%, var(--b) 62%, var(--ink-2) 100%);
+  will-change: opacity, transform;
+}
+.cs__plate::after {
+  /* the grade the service card plates carry, so this belongs to that family */
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(11, 13, 17, .78), transparent 62%);
+}
+.cs__plate-n,
+.cs__plate-h {
+  position: relative;
+  z-index: 1;
+  font-family: var(--cond);
+  color: var(--bone);
+}
+.cs__plate-n {
+  font-weight: 800;
+  font-size: clamp(3rem, 9vw, 6rem);
+  line-height: .85;
+  letter-spacing: -.03em;
+  opacity: .55;
+}
+.cs__plate-h {
+  font-weight: 600;
+  font-size: clamp(1.25rem, 2.6vw, 1.875rem);
+  letter-spacing: -.01em;
+}
+/* a real screenshot covers the fallback card entirely when one exists */
+.cs__img {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cs__frame .strip__perf { z-index: 2; }
+.cs__count {
+  position: absolute;
+  z-index: 3;
+  top: 1.25rem;
+  right: 1.25rem;
+  font-family: var(--mono);
+  font-size: .6875rem;
+  letter-spacing: .12em;
+  color: var(--bone-dim);
+  font-variant-numeric: tabular-nums;
+}
+.cs__count b { font-weight: 500; color: var(--amber); }
+.cs__count i { font-style: normal; color: var(--faint); margin-left: .35em; }
+
+/* ── the result ────────────────────────────────────────────── */
+
+.cs__figures {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+}
+.cs__figures > div { padding: 1.75rem 1.5rem; background: var(--ink); }
+.cs__figures dt {
+  font-family: var(--mono);
+  font-size: .5625rem;
+  letter-spacing: .28em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.cs__figures dd {
+  margin: .75rem 0 .6rem;
+  font-family: var(--cond);
+  font-weight: 600;
+  font-size: clamp(1.75rem, 4vw, 2.75rem);
+  line-height: 1;
+  letter-spacing: -.015em;
+  color: var(--amber);
+}
+.cs__figures dd i { font-style: normal; color: var(--faint); }
+.cs__figures p {
+  font-size: .875rem;
+  line-height: 1.55;
+  color: var(--bone-dim);
+}
+.cs__caveat {
+  margin-top: 1.5rem;
+  max-width: 58ch;
+  font-family: var(--mono);
+  font-size: .6875rem;
+  line-height: 1.7;
+  color: var(--muted);
+}
+.cs .end__actions {
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 1.5rem 2rem;
+  margin-top: 3.5rem;
+}
+.cs .foot { margin-top: 6rem; }
+
+/* ── single column: the stage stops sticking ───────────────── */
+
+@media (max-width: 900px) {
+  .cs__build { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  .cs__notes { padding-block: 4svh; order: 2; }
+  .cs__note { min-height: 0; margin-top: 0; }
+  .cs__note + .cs__note { margin-top: 3rem; }
+  /* Sticking a plate above the text on a phone would pin half the screen for
+     the whole section. It becomes one image at the top and then gets out of
+     the way. */
+  .cs__stage { position: static; height: auto; order: 1; margin-bottom: 2.5rem; }
+  .cs__frame { aspect-ratio: 3 / 2; }
+  .cs .end__actions { flex-direction: column; align-items: flex-start; }
+}
+
+/* The link that turns act 04 into a hub. Styled and ready; not yet wired,
+   because the six projects are still placeholders — see the TODO in
+   index.html for the one line that switches it on per project. */
+.proj__more {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  margin-top: 1.5rem;
+  font-family: var(--mono);
+  font-size: .6875rem;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--amber);
+  border-bottom: 1px solid transparent;
+  transition: border-color .4s var(--ease);
+}
+.proj__more::after { content: "\2192"; }
+.proj__more:hover { border-color: var(--amber); }

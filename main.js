@@ -238,6 +238,42 @@
     });
   }
 
+  /* ── case study: the plate holds while the notes scroll ────── */
+
+  // The text column flows normally and the visual column sticks, so one plate
+  // owns the screen while its note is read. Deliberately NOT the works act's
+  // wipe: that one cuts between whole projects, this one moves through stages
+  // of a single project, and a dissolve reads as continuity where a wipe would
+  // read as a change of subject.
+  var csEl = $("[data-cs]");
+  if (csEl) {
+    var csShots = $$("[data-cs-shot]", csEl);
+    var csNotes = $$("[data-cs-note]", csEl);
+    var csCount = $("[data-cs-count]", csEl);
+    var csN = Math.min(csShots.length, csNotes.length);
+    var csLast = -1;
+
+    RIG.track(csEl, function (p) {
+      // 0.5 → n-0.5, so the first and last stages are dead centre at the ends
+      var t = 0.5 + p * (csN - 1);
+      for (var i = 0; i < csN; i++) {
+        var d = t - i;
+        var v = RIG.clamp01(1 - Math.abs(d - 0.5) / 0.72);
+        var a = RIG.smoothstep(0, 0.42, v);
+        var s = csShots[i].style;
+        s.opacity = a.toFixed(3);
+        // a slow push-in across the plate's whole turn, so a still image is
+        // not simply parked on the screen for a screen and a half of reading
+        s.transform = "scale(" + (1.05 - a * 0.05).toFixed(4) + ")";
+      }
+      var idx = Math.min(csN - 1, Math.max(0, Math.round(t - 0.5)));
+      if (idx !== csLast) {
+        csLast = idx;
+        if (csCount) csCount.textContent = pad2(idx + 1);
+      }
+    });
+  }
+
   /* ── colophon: the scrub, shown as itself ──────────────────── */
 
   // The colophon claims every effect on the site is a function of one number.

@@ -43,7 +43,11 @@ const PAGES = [
   { file: "contact.html",        n: "07", name: "Contact",  live: true },
   { file: "colophon.html",       n: "08", name: "Colophon", live: true },
   // 404 carries the chrome but is never indexed and never listed
-  { file: "404.html",            n: "--", name: "Missing",  live: false, noindex: true }
+  { file: "404.html",            n: "--", name: "Missing",  live: false, noindex: true },
+  // The case study template, holding example content. It is built and kept in
+  // sync so the layout can be reviewed, and stays unlisted and unindexed until
+  // a real project replaces the example — see the band at the top of the page.
+  { file: "work/01-example.html", n: "--", name: "Example", live: false, noindex: true }
 ];
 
 // the home reel's own sections — the other half of the two-mode index
