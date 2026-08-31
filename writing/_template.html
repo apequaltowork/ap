@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Post title — Ashish Pitroda</title>
+<meta name="description" content="One sentence, under 160 characters, that would make sense as the only thing someone reads in a search result.">
+<meta name="robots" content="noindex">
+<!-- @chrome head -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@400;600;800&family=IBM+Plex+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,200;0,6..72,300;0,6..72,400;1,6..72,300&display=swap">
+<link rel="stylesheet" href="../styles.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230B0D11'/%3E%3Ccircle cx='16' cy='16' r='7.5' fill='none' stroke='%23F0A02A' stroke-width='2.5'/%3E%3C/svg%3E">
+<!-- @end head -->
+<!-- When this becomes a real post, add:
+     <link rel="canonical" href="https://apequaltowork.github.io/ap/writing/SLUG.html">
+     and the Article JSON-LD block below, with the real dates. -->
+</head>
+<body data-runtime="60">
+
+<!-- @chrome chrome -->
+<div class="grain" aria-hidden="true"></div>
+<div class="vignette" aria-hidden="true"></div>
+
+<!-- fixed film edge: sprocket holes that advance as the reel runs -->
+<div class="edge" aria-hidden="true">
+  <div class="edge__sprockets" data-sprockets></div>
+  <span class="edge__mark">ASHISH PITRODA · FULL-STACK DEVELOPER · 10+ YEARS</span>
+</div>
+
+<!-- index: acts on the home reel, pages everywhere else -->
+<nav class="reels" aria-label="Pages">
+  <ol class="reels__list">
+    <li><a class="reel" href="../index.html"><span class="reel__n">01</span><span class="reel__name">Reel</span><i class="reel__tick"></i></a></li>
+    <li><a class="reel" href="../services/index.html"><span class="reel__n">03</span><span class="reel__name">Services</span><i class="reel__tick"></i></a></li>
+    <li><a class="reel" href="../about.html"><span class="reel__n">04</span><span class="reel__name">About</span><i class="reel__tick"></i></a></li>
+    <li><a class="reel" href="../contact.html"><span class="reel__n">07</span><span class="reel__name">Contact</span><i class="reel__tick"></i></a></li>
+    <li><a class="reel" href="../colophon.html"><span class="reel__n">08</span><span class="reel__name">Colophon</span><i class="reel__tick"></i></a></li>
+  </ol>
+  <p class="reels__tc"><span data-timecode>00:00:00:00</span></p>
+</nav>
+
+<!-- playhead -->
+<div class="playhead" aria-hidden="true"><span class="playhead__bar" data-playhead></span></div>
+<!-- @end chrome -->
+
+<!-- ============================================================
+     TEMPLATE — copy this file to a slug and fill it in. It is registered in
+     build-pages.js only so the shared chrome stays in sync; it is never
+     listed and never indexed.
+
+     House style, such as it is:
+       · One idea per post, and say it in the first paragraph.
+       · Code blocks in <pre class="wrt__code"><code>.
+       · No "in this article we will". Start with the problem.
+       · If a number appears, it should be one you measured.
+     ============================================================ -->
+
+<main class="stage">
+
+  <article class="act act--wrt">
+    <div class="wrt wrt--post">
+      <a class="cform__back" href="index.html">
+        <svg viewBox="0 0 20 12" aria-hidden="true"><path d="M19 6H1M6 1 1 6l5 5"/></svg>
+        <span>All notes</span>
+      </a>
+
+      <p class="eyebrow" data-rise>
+        <time datetime="2026-01-01">1 January 2026</time> <i>·</i> Wagtail
+      </p>
+      <h1 class="wrt__h1" data-chars>Post title</h1>
+      <p class="lede" data-rise style="--d:.5s">
+        The standfirst. One or two sentences saying what problem this solves
+        and for whom, so a reader can decide in five seconds whether the rest
+        is for them.
+      </p>
+
+      <div class="wrt__body" data-rise style="--d:.62s">
+        <p>Opening paragraph: the problem, concretely. What was happening, what
+          it cost, and why the obvious fix did not work.</p>
+
+        <h2>A section heading</h2>
+        <p>Body copy. Prose over bullet lists wherever the ideas actually
+          connect — a list of five fragments is usually a paragraph that has
+          not been written yet.</p>
+
+        <pre class="wrt__code"><code># code, when it is the clearest way to say it
+def example():
+    return None</code></pre>
+
+        <p>What the code above is doing, and the part of it that is not
+          obvious. Never leave a block unexplained.</p>
+
+        <h2>What it came to</h2>
+        <p>The outcome, with a measurement if there is one. Then the honest
+          caveat: where this approach does not apply.</p>
+      </div>
+
+      <div class="end__actions" data-rise style="--d:.2s">
+        <a class="mail" href="../contact.html">
+          <span>Send a brief</span>
+          <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 16 16 4M7 4h9v9"/></svg>
+        </a>
+        <a class="end__alt" href="index.html">or read the other notes</a>
+      </div>
+
+      <!-- @chrome foot -->
+      <footer class="foot">
+        <span>&copy; 2026 Ashish Pitroda</span>
+        <span class="foot__links"><a href="../index.html">Reel</a><a href="../services/index.html">Services</a><a href="../about.html">About</a><a href="../contact.html">Contact</a><a href="../colophon.html">Colophon</a></span>
+        <span>Open to work</span>
+      </footer>
+      <!-- @end foot -->
+    </div>
+  </article>
+
+</main>
+
+<script src="../scroll.js"></script>
+<script src="../main.js"></script>
+</body>
+</html>

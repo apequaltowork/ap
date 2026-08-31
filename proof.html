@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Proof — client reviews and record</title>
+<meta name="description" content="Client reviews and the working record behind them.">
+<meta name="robots" content="noindex">
+<!-- @chrome head -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@400;600;800&family=IBM+Plex+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,200;0,6..72,300;0,6..72,400;1,6..72,300&display=swap">
+<link rel="stylesheet" href="styles.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230B0D11'/%3E%3Ccircle cx='16' cy='16' r='7.5' fill='none' stroke='%23F0A02A' stroke-width='2.5'/%3E%3C/svg%3E">
+<!-- @end head -->
+</head>
+<body data-runtime="96">
+
+<!-- @chrome chrome -->
+<div class="grain" aria-hidden="true"></div>
+<div class="vignette" aria-hidden="true"></div>
+
+<!-- fixed film edge: sprocket holes that advance as the reel runs -->
+<div class="edge" aria-hidden="true">
+  <div class="edge__sprockets" data-sprockets></div>
+  <span class="edge__mark">ASHISH PITRODA · FULL-STACK DEVELOPER · 10+ YEARS</span>
+</div>
+
+<!-- index: acts on the home reel, pages everywhere else -->
+<nav class="reels" aria-label="Pages">
+  <ol class="reels__list">
+    <li><a class="reel" href="index.html"><span class="reel__n">01</span><span class="reel__name">Reel</span><i class="reel__tick"></i></a></li>
+    <li><a class="reel" href="services/index.html"><span class="reel__n">03</span><span class="reel__name">Services</span><i class="reel__tick"></i></a></li>
+    <li><a class="reel" href="about.html"><span class="reel__n">04</span><span class="reel__name">About</span><i class="reel__tick"></i></a></li>
+    <li><a class="reel" href="contact.html"><span class="reel__n">07</span><span class="reel__name">Contact</span><i class="reel__tick"></i></a></li>
+    <li><a class="reel" href="colophon.html"><span class="reel__n">08</span><span class="reel__name">Colophon</span><i class="reel__tick"></i></a></li>
+  </ol>
+  <p class="reels__tc"><span data-timecode>00:00:00:00</span></p>
+</nav>
+
+<!-- playhead -->
+<div class="playhead" aria-hidden="true"><span class="playhead__bar" data-playhead></span></div>
+<!-- @end chrome -->
+
+<!-- ============================================================
+     HELD — this page ships built but unlisted, and it must stay that way
+     until real content replaces the slots below.
+
+     There is a deliberate difference between this page and the case study
+     demo. That one carries example prose, because prose demonstrates a
+     layout and nobody is quoted in it. A testimonial is different in kind:
+     it is words attributed to a named person, and a plausible-looking fake
+     one is a fabricated reference no matter how it is labelled. So there
+     are none here — only empty slots that say what belongs in them.
+
+     TO FINISH IT — Ashish:
+       1. Paste the real Upwork reviews into the .prf__quote blocks: the
+          words, the reviewer's name or role, and the project. Only reviews
+          you are content to publish; a first name and a sector is fine if
+          the client would rather not be named.
+       2. Fill the four figures with your real Upwork totals — jobs, hours,
+          job success score, earned. Round them; do not inflate them.
+       3. Flip proof.html to live: true in build-pages.js and delete the
+          noindex above. It then joins the reel index and the sitemap.
+     ============================================================ -->
+
+<p class="cs-flag" role="note">
+  <b>Not finished.</b> This page is built but holds no content yet — the
+  reviews and figures below are empty slots, not claims. It is unlisted and
+  unindexed until the real ones are in.
+</p>
+
+<main class="stage">
+
+  <!-- ─────────── P1 · THE RECORD ─────────── -->
+  <section class="act act--prf-top" id="p1">
+    <div class="prf">
+      <a class="cform__back" href="index.html">
+        <svg viewBox="0 0 20 12" aria-hidden="true"><path d="M19 6H1M6 1 1 6l5 5"/></svg>
+        <span>Back to the reel</span>
+      </a>
+
+      <p class="eyebrow" data-rise>Proof <i>·</i> What clients said afterwards</p>
+      <h1 class="prf__title" data-chars>The record</h1>
+      <p class="lede" data-rise style="--d:.5s">
+        Anyone can describe how they work. This is the part written by the
+        people who paid for it — the reviews as they were left, unedited, and
+        the totals behind them.
+      </p>
+
+      <dl class="prf__figures" data-rise style="--d:.62s">
+        <div><dt>Jobs completed</dt><dd class="is-empty">&mdash;</dd><p>Awaiting the real total.</p></div>
+        <div><dt>Hours worked</dt><dd class="is-empty">&mdash;</dd><p>Awaiting the real total.</p></div>
+        <div><dt>Job success</dt><dd class="is-empty">&mdash;</dd><p>Awaiting the real score.</p></div>
+        <div><dt>Years freelancing</dt><dd class="is-empty">&mdash;</dd><p>Awaiting the real figure.</p></div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- ─────────── P2 · THE REVIEWS ───────────
+       The services filmstrip, carrying quotes instead of cards. Same scrub,
+       same sprocket edge, same counter — it is [data-strip], unmodified. -->
+  <section class="act act--pin act--cut" id="p2" style="--len:5">
+    <div class="pin">
+      <span class="act__tag">In their words</span>
+      <div class="strip" data-strip>
+        <div class="strip__perf" aria-hidden="true"></div>
+        <div class="strip__track" data-strip-track>
+
+          <article class="frame prf__quote">
+            <div class="frame__plate"><span class="frame__n">01</span></div>
+            <blockquote class="prf__q is-empty">Review 01 goes here, in the client&rsquo;s own words.</blockquote>
+            <p class="frame__meta">Name or role <i>·</i> Project</p>
+          </article>
+          <article class="frame prf__quote">
+            <div class="frame__plate"><span class="frame__n">02</span></div>
+            <blockquote class="prf__q is-empty">Review 02 goes here, in the client&rsquo;s own words.</blockquote>
+            <p class="frame__meta">Name or role <i>·</i> Project</p>
+          </article>
+          <article class="frame prf__quote">
+            <div class="frame__plate"><span class="frame__n">03</span></div>
+            <blockquote class="prf__q is-empty">Review 03 goes here, in the client&rsquo;s own words.</blockquote>
+            <p class="frame__meta">Name or role <i>·</i> Project</p>
+          </article>
+          <article class="frame prf__quote">
+            <div class="frame__plate"><span class="frame__n">04</span></div>
+            <blockquote class="prf__q is-empty">Review 04 goes here, in the client&rsquo;s own words.</blockquote>
+            <p class="frame__meta">Name or role <i>·</i> Project</p>
+          </article>
+          <article class="frame prf__quote">
+            <div class="frame__plate"><span class="frame__n">05</span></div>
+            <blockquote class="prf__q is-empty">Review 05 goes here, in the client&rsquo;s own words.</blockquote>
+            <p class="frame__meta">Name or role <i>·</i> Project</p>
+          </article>
+          <article class="frame prf__quote">
+            <div class="frame__plate"><span class="frame__n">06</span></div>
+            <blockquote class="prf__q is-empty">Review 06 goes here, in the client&rsquo;s own words.</blockquote>
+            <p class="frame__meta">Name or role <i>·</i> Project</p>
+          </article>
+
+        </div>
+      </div>
+      <p class="strip__hint"><span data-strip-count>01</span><i>/</i>06<em>scroll to advance the strip</em></p>
+    </div>
+  </section>
+
+  <!-- ─────────── P3 · THE RULE ─────────── -->
+  <section class="act act--prf-rule" id="p3">
+    <div class="prf">
+      <span class="act__tag act__tag--flow">The rule</span>
+      <h2 class="prf__h" data-rise>Nothing on this page is written by me</h2>
+      <p class="lede" data-rise>
+        Reviews appear as they were left, or they do not appear. Where a client
+        would rather not be named, the quote runs under a role and a sector
+        instead — and if a client asks for a review to come down, it comes
+        down the same day.
+      </p>
+
+      <div class="end__actions" data-rise style="--d:.2s">
+        <a class="mail" href="contact.html">
+          <span>Send a brief</span>
+          <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 16 16 4M7 4h9v9"/></svg>
+        </a>
+        <a class="end__alt" href="about.html">or read how I work</a>
+      </div>
+
+      <!-- @chrome foot -->
+      <footer class="foot">
+        <span>&copy; 2026 Ashish Pitroda</span>
+        <span class="foot__links"><a href="index.html">Reel</a><a href="services/index.html">Services</a><a href="about.html">About</a><a href="contact.html">Contact</a><a href="colophon.html">Colophon</a></span>
+        <span>Open to work</span>
+      </footer>
+      <!-- @end foot -->
+    </div>
+  </section>
+
+</main>
+
+<script src="scroll.js"></script>
+<script src="main.js"></script>
+</body>
+</html>

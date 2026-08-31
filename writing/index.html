@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Writing — notes on Wagtail, Django and inherited code</title>
+<meta name="description" content="Occasional notes from the work: Wagtail upgrades, Django data modelling, and what taking over someone else's codebase actually involves.">
+<meta name="robots" content="noindex">
+<!-- @chrome head -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@400;600;800&family=IBM+Plex+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,200;0,6..72,300;0,6..72,400;1,6..72,300&display=swap">
+<link rel="stylesheet" href="../styles.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230B0D11'/%3E%3Ccircle cx='16' cy='16' r='7.5' fill='none' stroke='%23F0A02A' stroke-width='2.5'/%3E%3C/svg%3E">
+<!-- @end head -->
+</head>
+<body data-runtime="60">
+
+<!-- @chrome chrome -->
+<div class="grain" aria-hidden="true"></div>
+<div class="vignette" aria-hidden="true"></div>
+
+<!-- fixed film edge: sprocket holes that advance as the reel runs -->
+<div class="edge" aria-hidden="true">
+  <div class="edge__sprockets" data-sprockets></div>
+  <span class="edge__mark">ASHISH PITRODA · FULL-STACK DEVELOPER · 10+ YEARS</span>
+</div>
+
+<!-- index: acts on the home reel, pages everywhere else -->
+<nav class="reels" aria-label="Pages">
+  <ol class="reels__list">
+    <li><a class="reel" href="../index.html"><span class="reel__n">01</span><span class="reel__name">Reel</span><i class="reel__tick"></i></a></li>
+    <li><a class="reel" href="../services/index.html"><span class="reel__n">03</span><span class="reel__name">Services</span><i class="reel__tick"></i></a></li>
+    <li><a class="reel" href="../about.html"><span class="reel__n">04</span><span class="reel__name">About</span><i class="reel__tick"></i></a></li>
+    <li><a class="reel" href="../contact.html"><span class="reel__n">07</span><span class="reel__name">Contact</span><i class="reel__tick"></i></a></li>
+    <li><a class="reel" href="../colophon.html"><span class="reel__n">08</span><span class="reel__name">Colophon</span><i class="reel__tick"></i></a></li>
+  </ol>
+  <p class="reels__tc"><span data-timecode>00:00:00:00</span></p>
+</nav>
+
+<!-- playhead -->
+<div class="playhead" aria-hidden="true"><span class="playhead__bar" data-playhead></span></div>
+<!-- @end chrome -->
+
+<!-- ============================================================
+     HELD — no posts yet, so this page is unlisted and unindexed.
+
+     A blog with two posts and a gap since is worse than no blog: it reads
+     as abandoned, and a visitor draws a conclusion from it about the rest
+     of the site. So the index ships with an honest empty state and stays
+     off the reel index until there is something on it.
+
+     TO PUBLISH A POST — Ashish:
+       1. Copy _template.html to a slug, e.g. wagtail-2-to-6.html.
+       2. Fill in title, description, date and the prose. The posts I would
+          suggest first, because they are things you have actually done and
+          people search for:
+            · What a Wagtail 2.x to 6.x upgrade actually involves
+            · Taking over a codebase: the first week
+            · StreamField blocks that do not become a mess
+       3. Add a .wrt__row for it in the list below.
+       4. Register the post in build-pages.js as child: true, and flip
+          writing/index.html to live: true once the first one is up. Remove
+          the noindex from both.
+     ============================================================ -->
+
+<main class="stage">
+
+  <section class="act act--wrt">
+    <div class="wrt">
+      <a class="cform__back" href="../index.html">
+        <svg viewBox="0 0 20 12" aria-hidden="true"><path d="M19 6H1M6 1 1 6l5 5"/></svg>
+        <span>Back to the reel</span>
+      </a>
+
+      <p class="eyebrow" data-rise>Writing <i>·</i> Notes from the work</p>
+      <h1 class="wrt__title" data-chars>Notes</h1>
+      <p class="lede" data-rise style="--d:.5s">
+        Occasional write-ups of problems that took long enough to solve that
+        somebody else is probably still stuck on them. Wagtail upgrades,
+        inherited code, and the parts of Django that only bite at scale.
+      </p>
+
+      <!-- posts go here as .wrt__row, newest first -->
+      <div class="wrt__empty" data-rise style="--d:.62s">
+        <p class="wrt__k">Nothing published yet</p>
+        <p>This page is built and waiting. It stays off the site index until
+          there is a first post, because an empty archive says something
+          unflattering and inaccurate about how busy the work is.</p>
+        <p>In the meantime, the <a href="../colophon.html">colophon</a> is the
+          closest thing here to a written-up build.</p>
+      </div>
+
+      <!-- @chrome foot -->
+      <footer class="foot">
+        <span>&copy; 2026 Ashish Pitroda</span>
+        <span class="foot__links"><a href="../index.html">Reel</a><a href="../services/index.html">Services</a><a href="../about.html">About</a><a href="../contact.html">Contact</a><a href="../colophon.html">Colophon</a></span>
+        <span>Open to work</span>
+      </footer>
+      <!-- @end foot -->
+    </div>
+  </section>
+
+</main>
+
+<script src="../scroll.js"></script>
+<script src="../main.js"></script>
+</body>
+</html>

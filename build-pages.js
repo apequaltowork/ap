@@ -46,9 +46,14 @@ const PAGES = [
   { file: "index.html",          n: "01", name: "Reel",     nav: "acts", live: true },
   { file: "work/index.html",     n: "02", name: "Work",     live: false },
   { file: "services/index.html", n: "03", name: "Services", live: true },
-  { file: "about.html",          n: "04", name: "About",    live: false },
-  { file: "proof.html",          n: "05", name: "Proof",    live: false },
-  { file: "writing/index.html",  n: "06", name: "Writing",  live: false },
+  { file: "about.html",          n: "04", name: "About",    live: true },
+  // Held: no fabricated testimonials, so it waits for the real Upwork reviews.
+  // See the block comment at the top of proof.html for what flipping it needs.
+  { file: "proof.html",          n: "05", name: "Proof",    live: false, noindex: true },
+  // Held: an empty archive reads as abandoned. Goes live with the first post.
+  { file: "writing/index.html",  n: "06", name: "Writing",  live: false, noindex: true },
+  // never listed, never indexed — it exists to be copied
+  { file: "writing/_template.html",       name: "Template", live: false, noindex: true },
   { file: "contact.html",        n: "07", name: "Contact",  live: true },
   { file: "colophon.html",       n: "08", name: "Colophon", live: true },
 
